@@ -1,0 +1,26 @@
+{
+  "name": "sphero.js",
+  "version": "0.1.0",
+  "description": "Sphero.js",
+  "homepage": "http://gosphero.com",
+  "bugs": "https://github.com/orbotix/sphero.js/issues",
+  "author": "Orbotix Inc.",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orbotix/sphero.js"
+  },
+
+  "license": "Apache 2.0",
+
+  "devDependencies": {
+    "sinon-chai": "2.7.0",
+    "chai":       "2.2.0",
+    "mocha":      "2.2.1",
+    "sinon":      "1.14.1",
+
+    "jshint":     "2.6.3",
+
+    "babel":      "5.0.9"
+  }
+}
