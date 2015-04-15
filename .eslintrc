@@ -1,17 +1,6 @@
 env:
   node: true
 
-globals:
-  every: true
-  after: true
-  constantly: true
-  expect: true
-  source: true
-  stub: true
-  spy: true
-  chai: true
-  sinon: true
-
 rules:
   camelcase: [2, {properties: "always"}]
   comma-dangle: "always-multiline"
