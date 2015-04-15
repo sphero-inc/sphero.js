@@ -19,13 +19,13 @@
     "mocha":      "2.2.1",
     "sinon":      "1.14.1",
 
-    "jshint":     "2.6.3",
-
-    "babel":      "5.0.9"
+    "jshint":     "2.6.3"
   },
 
   "dependencies": {
-    "serialport": ">=1.6.3",
-    "lodash": ">=3.6.0"
+    "serialport": "1.6.3",
+    "browser-serialport": "2.0.2",
+    "lodash": "3.6.0",
+    "debug": "2.1.3"
   }
 }
