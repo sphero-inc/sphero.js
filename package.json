@@ -19,7 +19,7 @@
     "mocha":      "2.2.1",
     "sinon":      "1.14.1",
 
-    "jshint":     "2.6.3"
+    "eslint":     "0.19.0"
   },
 
   "dependencies": {
