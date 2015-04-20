@@ -1,4 +1,4 @@
-var Sphero = require("./lib/sphero");
+var Sphero = require("../lib/sphero");
 
 var sphero= new Sphero("/dev/rfcomm0");
 
@@ -11,8 +11,11 @@ sphero.connect( function() {
     var res = sphero.packet.parse(payload);
 
     console.log("Response Packet:", res);
-    if (!!res.data) {
+
+    if (!!res && !!res.data) {
       console.log("Data string:", res.data.toString());
+    } else {
+      console.log("Waiting for more data:", res);
     }
   });
 
@@ -23,18 +26,19 @@ sphero.connect( function() {
   //   console.log("results ", results);
   // });
 
-  //sphero.ping();
-  //sphero.version();
-  //sphero.setDeviceName("EsfiroRPB");
+  // sphero.ping();
+  // sphero.version();
 
-  // setTimeout(function() {
-  //   console.log("GET INFO!!!");
-  //   sphero.getBluetoothInfo();
-  // }, 2000);
-  //
+  //sphero.setDeviceName("EsfirationRPB");
+
+  //setTimeout(function() {
+    //console.log("GET INFO!!!");
+    sphero.getBluetoothInfo();
+  //}, 2000);
+
   //sphero.setAutoReconnect(1, 5);
   //sphero.getAutoReconnect(1, 5);
-  //sphero.getPowerState(1, 5);
-  //sphero.setPowerNotification(0);
-  sphero.sleep(10, 0, 0);
+  sphero.getPowerState(1, 5);
+  sphero.setPowerNotification(1);
+  //sphero.sleep(10, 0, 0);
 });
