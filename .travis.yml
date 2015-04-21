@@ -1,0 +1,13 @@
+language: node_js
+sudo: false
+node_js:
+  - '0.10'
+  - '0.12'
+  - 'iojs'
+before_install:
+  - "mkdir -p ~/.npm"
+before_script:
+  - npm install -g istanbul jshint codeclimate-test-reporter
+script:
+  #- make ci
+  #- CODECLIMATE_REPO_TOKEN=f0b97e0f84cb98a1d06055bd2d4db189e4cda73f4aaad8b78904ed64bfc30252 codeclimate < coverage/lcov.info
