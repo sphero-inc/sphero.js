@@ -5,11 +5,6 @@ var sphero= new Sphero("/dev/rfcomm0");
 sphero.connect( function() {
   console.log("::CONNECT EVENT::");
 
-  sphero.on("data", function(payload) {
-    console.log("::DATA EVENT::");
-    console.log("  Payload:", payload);
-  });
-
   sphero.on("response", function(packet) {
     console.log("::RESPONSE PACKET::");
     console.log("  Packet:", packet);
@@ -26,17 +21,17 @@ sphero.connect( function() {
   };
 
   sphero.ping(callback);
-  sphero.version(callback);
+  sphero.version();
 
   sphero.setDeviceName("bb8RPB");
 
-  setTimeout(function() {
-    sphero.getBluetoothInfo(callback);
-  }, 2000);
+  //setTimeout(function() {
+    //sphero.getBluetoothInfo(callback);
+  //}, 5000);
 
   //sphero.setAutoReconnect(1, 5);
-  //sphero.getAutoReconnect(1, 5);
-  sphero.getPowerState(1, 5, callback);
-  sphero.setPowerNotification(1, callback);
+  sphero.getAutoReconnect();
+  sphero.getPowerState();
+  sphero.setPowerNotification(1);
   //sphero.sleep(10, 0, 0);
 });
