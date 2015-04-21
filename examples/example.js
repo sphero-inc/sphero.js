@@ -7,38 +7,36 @@ sphero.connect( function() {
 
   sphero.on("data", function(payload) {
     console.log("::DATA EVENT::");
-    //console.log("data payload: ", payload);
-    var res = sphero.packet.parse(payload);
-
-    console.log("Response Packet:", res);
-
-    if (!!res && !!res.data) {
-      console.log("Data string:", res.data.toString());
-    } else {
-      console.log("Waiting for more data:", res);
-    }
+    console.log("  Payload:", payload);
   });
 
-  //var buffer = packet.command(0x20, [0xFF, 0x00, 0xFF, 0x01], { sop2: 0xFF });
+  sphero.on("response", function(packet) {
+    console.log("::RESPONSE PACKET::");
+    console.log("  Packet:", packet);
+  });
 
-  // serialport.write(buffer, function(err, results) {
-  //   console.log("err " + err);
-  //   console.log("results ", results);
-  // });
+  sphero.on("async", function(packet) {
+    console.log("::ASYNC PACKET::");
+    console.log("  Packet:", packet);
+  });
 
-  // sphero.ping();
-  // sphero.version();
+  var callback = function(err, data){
+    console.log("Error: ", err);
+    console.log("Data: ", data);
+  };
 
-  //sphero.setDeviceName("EsfirationRPB");
+  sphero.ping(callback);
+  sphero.version(callback);
 
-  //setTimeout(function() {
-    //console.log("GET INFO!!!");
-    sphero.getBluetoothInfo();
-  //}, 2000);
+  sphero.setDeviceName("bb8RPB");
+
+  setTimeout(function() {
+    sphero.getBluetoothInfo(callback);
+  }, 2000);
 
   //sphero.setAutoReconnect(1, 5);
   //sphero.getAutoReconnect(1, 5);
-  sphero.getPowerState(1, 5);
-  sphero.setPowerNotification(1);
+  sphero.getPowerState(1, 5, callback);
+  sphero.setPowerNotification(1, callback);
   //sphero.sleep(10, 0, 0);
 });
