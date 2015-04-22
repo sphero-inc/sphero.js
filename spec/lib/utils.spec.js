@@ -1,4 +1,4 @@
-// jshint expr:true
+"use strict";
 
 var utils = lib("utils");
 
