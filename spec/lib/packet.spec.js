@@ -114,6 +114,57 @@ describe("Packet", function() {
         expect(res.checksum).to.be.eql(0xE8);
       });
 
+      context("buffer length is less than minSizeReq", function() {
+        beforeEach(function() {
+          buffer = new Buffer([0xFF, 0xFF, 0x00, 0x02]);
+
+          res = packet.parse(buffer);
+        });
+
+        it("partialBuffer should not be empty", function() {
+          expect(packet.partialBuffer.length).to.be.eql(4);
+        });
+
+        it("res should be null", function() {
+          expect(res).to.be.null;
+        });
+      });
+
+      context("SOPs don't pass validation", function() {
+        beforeEach(function() {
+          buffer = new Buffer([0xF0, 0x00, 0x02, 0x01].concat(0xFC));
+        });
+
+        context("and @partialBuffer is empty", function() {
+          beforeEach(function() {
+            res = packet.parse(buffer);
+          });
+
+          it("partialBuffer should not be empty", function() {
+            expect(packet.partialBuffer.length).to.be.eql(5);
+          });
+
+          it("res should be null", function() {
+            expect(res).to.be.null;
+          });
+        });
+
+        context("and @partialBuffer is NOT empty", function() {
+          beforeEach(function() {
+            packet.partialBuffer = new Buffer([0xFF]);
+            res = packet.parse(buffer);
+          });
+
+          it("partialBuffer should be empty", function() {
+            expect(packet.partialBuffer.length).to.be.eql(0);
+          });
+
+          it("res should be null", function() {
+            expect(res).to.be.null;
+          });
+        });
+      });
+
       context("when partialResponse is not empty", function() {
         beforeEach(function() {
           buffer = new Buffer([0xFF, 0x00, 0x02, 0x01].concat(0xFC));
