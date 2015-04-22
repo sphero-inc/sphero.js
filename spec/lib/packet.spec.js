@@ -130,6 +130,53 @@ describe("Packet", function() {
         });
       });
 
+      context("buffer length is less than expectedSize", function() {
+        beforeEach(function() {
+          buffer = new Buffer([0xFF, 0xFF, 0x00, 0x02, 0x06, 0x01, 0x02]);
+
+          res = packet.parse(buffer);
+        });
+
+        it("partialBuffer should not be empty", function() {
+          expect(packet.partialBuffer.length).to.be.eql(7);
+        });
+
+        it("res should be null", function() {
+          expect(res).to.be.null;
+        });
+      });
+
+      context("buffer length is greater than expectedSize", function() {
+        beforeEach(function() {
+          buffer = new Buffer(
+            [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC, 0xFF, 0xFF, 0x00]
+          );
+
+          res = packet.parse(buffer);
+        });
+
+        it("partialBuffer should not be empty", function() {
+          expect(packet.partialBuffer.length).to.be.eql(3);
+        });
+
+        it("partialBuffer should be eql to", function() {
+          expect(packet.partialBuffer).to.be.eql(new Buffer([0xFF, 0xFF, 0x00]));
+        });
+
+        it("res should be a packet obj", function() {
+          expect(res).to.not.be.null;
+          expect(res).to.be.eql({
+            sop1: 0xFF,
+            sop2: 0xFF,
+            mrsp: 0x00,
+            seq: 0x02,
+            dlen: 0x01,
+            data: new Buffer(0),
+            checksum: 0xFC,
+          });
+        });
+      });
+
       context("SOPs don't pass validation", function() {
         beforeEach(function() {
           buffer = new Buffer([0xF0, 0x00, 0x02, 0x01].concat(0xFC));
@@ -225,6 +272,56 @@ describe("Packet", function() {
       it("packet res@checksum should be 0xFE", function() {
         expect(res.checksum).to.be.eql(0xE0);
       });
+    });
+  });
+
+  describe("checker", function() {
+    it("#_checksum should return 0xFC", function() {
+      var buffer = [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC],
+          check = packet.checksum(buffer.slice(3, 5));
+      expect(check).to.be.eql(0xFC);
+    });
+
+    it("#_checkSOPs with SOP2 0xFF should return 'sync'", function() {
+      var buffer = [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC],
+          check = packet._checkSOPs(buffer);
+      expect(check).to.be.eql("sync");
+    });
+
+    it("#_checkSOPs with SOP2 0xFE should return 'async'", function() {
+      var buffer = [0xFF, 0xFE, 0x00, 0x02, 0x01, 0xFC],
+          check = packet._checkSOPs(buffer);
+      expect(check).to.be.eql("async");
+    });
+
+    it("#_checkSOPs with SOP2 0xFE should return 'async'", function() {
+      var buffer = [0xFF, 0xFC, 0x00, 0x02, 0x01, 0xFC],
+          check = packet._checkSOPs(buffer);
+      expect(check).to.be.eql(false);
+    });
+
+    it("#_checkExpectedSize should return 6 when size == expected", function() {
+      var buffer = [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC],
+          check = packet._checkExpectedSize(buffer);
+      expect(check).to.be.eql(6);
+    });
+
+    it("#_checkExpectedSize should return -1 when size < expected", function() {
+      var buffer = [0xFF, 0xFC, 0x00, 0x02, 0x04, 0x02, 0x03],
+          check = packet._checkExpectedSize(buffer);
+      expect(check).to.be.eql(-1);
+    });
+
+    it("#_checkMinSize should return true when size >= min", function() {
+      var buffer = [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC],
+          check = packet._checkMinSize(buffer);
+      expect(check).to.be.eql(true);
+    });
+
+    it("#_checkMinSize should return false when size < min", function() {
+      var buffer = [0xFF, 0xFC, 0x00, 0x02, 0x01],
+          check = packet._checkMinSize(buffer);
+      expect(check).to.be.eql(false);
     });
   });
 });
