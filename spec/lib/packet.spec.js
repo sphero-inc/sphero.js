@@ -160,7 +160,8 @@ describe("Packet", function() {
         });
 
         it("partialBuffer should be eql to", function() {
-          expect(packet.partialBuffer).to.be.eql(new Buffer([0xFF, 0xFF, 0x00]));
+          var tmpBuffer = new Buffer([0xFF, 0xFF, 0x00]);
+          expect(packet.partialBuffer).to.be.eql(tmpBuffer);
         });
 
         it("res should be a packet obj", function() {
