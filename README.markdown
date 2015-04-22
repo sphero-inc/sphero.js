@@ -32,6 +32,6 @@ Use `npm install` to install development dependencies.
 
 Run the tests with `make test`.
 
-Use `make lint` to run JSHint against both `lib` and `spec/lib`.
+Use `make lint` to run ESLint against both `lib` and `spec/lib`.
 
 Use `make` to run both.
