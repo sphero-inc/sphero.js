@@ -18,4 +18,3 @@ cover:
 	@istanbul cover $(BIN)/_mocha $(TEST_FILES) --report lcovonly -- -R spec
 
 ci: lint cover
-

@@ -114,6 +114,40 @@ describe("Packet", function() {
         expect(res.checksum).to.be.eql(0xE8);
       });
 
+      context(" when checksum is incorrect", function() {
+        beforeEach(function() {
+          var tmpBuffer = [0xFF, 0xFF, 0x00, 0x02, 0x06];
+
+          data = [0x05, 0x04, 0x03, 0x02, 0x01];
+          buffer = new Buffer(tmpBuffer.concat(data, 0xEE));
+
+          stub(packet, "emit");
+
+          res = packet.parse(buffer);
+        });
+
+        afterEach(function() {
+          packet.emit.restore;
+        });
+
+        it("emits an error event with a checksum Error param", function() {
+          expect(packet.emit).to.be.calledOnce;
+          expect(packet.emit)
+            .to.be.calledWith(
+              "error",
+              new Error("Incorrect checksum, packet discarded")
+            );
+        });
+
+        it("@partialBuffer should be empty", function() {
+          expect(packet.partialBuffer.length).to.be.eql(0);
+        });
+
+        it("res should be null", function() {
+          expect(res).to.be.null;
+        });
+      });
+
       context("buffer length is less than minSizeReq", function() {
         beforeEach(function() {
           buffer = new Buffer([0xFF, 0xFF, 0x00, 0x02]);
