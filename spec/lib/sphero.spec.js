@@ -250,4 +250,32 @@ describe("Sphero", function() {
       expect(sphero.callbacks[0x04]).to.be.null;
     });
   });
+
+  describe("#_bindDevice", function() {
+    var device;
+
+    beforeEach(function() {
+      device = {
+        cmdOne: function() {
+          return "one";
+        },
+        cmdTwo: function() {
+          return "two";
+        },
+        cmdThree: function() {
+          return "tres";
+        }
+      };
+
+      sphero._bindDevice(device);
+    });
+
+    it("adds and binds device properties", function() {
+      expect(sphero.cmdOne).to.be.a("function");
+    });
+
+    it("bound command to return a value", function() {
+      expect(sphero.cmdOne()).to.be.eql("one");
+    });
+  });
 });
