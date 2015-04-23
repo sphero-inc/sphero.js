@@ -30,6 +30,23 @@ sphero.on('error', function(err) {
   console.log('there was a problem :(', err);
 })
 ```
+### Executing commands
+```javascript
+
+var Sphero = require("sphero");
+var sphero = new Sphero("/dev/rfcomm0");
+
+sphero.connect(function() {
+  sphero.ping(function(err, packet) {
+    if (!err) {
+      console.log(err);
+    }
+    console.log("PING PACKET: ", packet);
+  });
+});
+
+```
+
 
 ## Development
 
