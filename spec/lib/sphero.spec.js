@@ -153,4 +153,36 @@ describe("Sphero", function() {
       expect(callback).to.be.calledOnce;
     });
   });
+
+  describe("_incSeq", function() {
+    var seq;
+
+    beforeEach(function() {
+      sphero.seqCounter = 10;
+
+      seq = sphero._incSeq();
+    });
+
+    it("returns the current @seqCounter value", function() {
+      expect(seq).to.be.eql(10);
+    });
+
+    it("increments @seqCounter after returning current value", function() {
+      expect(sphero.seqCounter).to.be.eql(11);
+    });
+
+    context("when @seqCounter is 256", function() {
+      beforeEach(function() {
+        sphero.seqCounter = 256;
+        seq = sphero._incSeq();
+      });
+      it("returns 0", function() {
+        expect(seq).to.be.eql(0);
+      });
+
+      it("resets @seqCounter to 1", function() {
+        expect(sphero.seqCounter).to.be.eql(1);
+      });
+    });
+  });
 });
