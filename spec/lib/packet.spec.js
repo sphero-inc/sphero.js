@@ -1,6 +1,7 @@
 "use strict";
 
-var Packet = lib("packet");
+var Packet = lib("packet"),
+    utils = lib("utils");
 
 describe("Packet", function() {
   var packet;
@@ -313,7 +314,7 @@ describe("Packet", function() {
   describe("checker", function() {
     it("#_checksum should return 0xFC", function() {
       var buffer = [0xFF, 0xFF, 0x00, 0x02, 0x01, 0xFC],
-          check = packet.checksum(buffer.slice(3, 5));
+          check = utils.checksum(buffer.slice(3, 5));
       expect(check).to.be.eql(0xFC);
     });
 
