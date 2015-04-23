@@ -2,7 +2,7 @@
 
 var Sphero = require("../lib/sphero");
 
-var sphero = new Sphero("/dev/rfcomm0");
+var sphero = Sphero("/dev/rfcomm0");
 
 sphero.connect(function() {
   console.log("::CONNECT EVENT::");
