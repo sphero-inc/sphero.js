@@ -1,22 +1,18 @@
 "use strict";
 
-var spheroFactory = lib("sphero");
+var factory = lib("sphero");
 
-var Packet = require("../../lib/packet"),
-    SerialPort = require("serialport").SerialPort;
+var Packet = lib("packet"),
+    SerialPort = lib("adaptors/serialport");
 
 describe("Sphero", function() {
   var sphero;
 
   beforeEach(function() {
-    sphero = spheroFactory("/dev/rfcomm0");
+    sphero = factory("/dev/rfcomm0");
   });
 
   describe("#constructor", function() {
-
-    beforeEach(function() {
-    });
-
     it("is not ready until #connect is called", function() {
       expect(sphero.ready).to.be.false;
     });
