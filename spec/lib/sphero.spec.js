@@ -154,7 +154,7 @@ describe("Sphero", function() {
     });
   });
 
-  describe("_incSeq", function() {
+  describe("#_incSeq", function() {
     var seq;
 
     beforeEach(function() {
@@ -183,6 +183,71 @@ describe("Sphero", function() {
       it("resets @seqCounter to 1", function() {
         expect(sphero.seqCounter).to.be.eql(1);
       });
+    });
+  });
+
+  describe("#_queueCallback", function() {
+    var callback, fakeTimers;
+
+    beforeEach(function() {
+      sphero.seqCounter = 0;
+      fakeTimers = sinon.useFakeTimers();
+
+      callback = spy();
+
+      sphero._queueCallback(0x00, callback);
+    });
+
+    afterEach(function() {
+      fakeTimers.restore();
+    });
+
+    it("adds the callback to the @callbacks queue", function() {
+      expect(sphero.callbacks[0]).to.not.be.null;
+    });
+
+    it("removes the callback from @callbacks after 100ms", function() {
+      fakeTimers.tick(101);
+      expect(sphero.callbacks[0]).to.be.null;
+    });
+
+    it("triggers the callback passed", function() {
+      var error = new Error("Command sync response was lost.");
+      fakeTimers.tick(101);
+      expect(callback).to.be.calledWith(error, null);
+    });
+  });
+
+  describe("#_execCallback", function() {
+    var fakeTimers, callback, packet;
+
+    beforeEach(function() {
+      packet = {
+        sop1: 0xFF,
+        sop2: 0xFF,
+        mrsp: 0x00,
+        seq: 0x00,
+        dlen: 0x01,
+        checksum: 0xFE
+      };
+
+      fakeTimers = sinon.useFakeTimers();
+      callback = spy();
+
+      sphero._queueCallback(0x04, callback);
+      sphero._execCallback(0x04, packet);
+    });
+
+    afterEach(function() {
+      fakeTimers.restore();
+    });
+
+    it("triggers callback with args", function() {
+      expect(callback).to.be.calledWith(null, packet);
+    });
+
+    it("removes the callback from the queue", function() {
+      expect(sphero.callbacks[0x04]).to.be.null;
     });
   });
 });
