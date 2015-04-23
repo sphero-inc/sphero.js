@@ -18,36 +18,44 @@ sphero.connect(function() {
   // });
 
   sphero.ping(function(err, packet) {
-    if (!err) {
-      console.log(err);
+    if (err) {
+      console.error(err);
+      return;
     }
+
     console.log("PING PACKET: ", packet);
   });
 
 
   setTimeout(function() {
     sphero.version(function(err, packet) {
-      if (!err) {
-        console.log(err);
+      if (err) {
+        console.error(err);
+        return;
       }
+
       console.log("VERSION PACKET: ", packet);
     });
   }, 100);
 
   setTimeout(function() {
     sphero.setDeviceName("r2d2-RPB", function(err, packet) {
-      if (!err) {
-        console.log(err);
+      if (err) {
+        console.error(err);
+        return;
       }
+
       console.log("SET_DEVICE_NAME PACKET: ", packet);
     });
   }, 300);
 
   setTimeout(function() {
     sphero.getBluetoothInfo(function(err, packet) {
-      if (!err) {
-        console.log(err);
+      if (err) {
+        console.error(err);
+        return;
       }
+
       console.log("GET_BT_INFO PACKET: ", packet);
     });
   }, 200);
