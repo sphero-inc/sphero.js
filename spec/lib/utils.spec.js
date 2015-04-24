@@ -34,8 +34,16 @@ describe("utils", function() {
 
   describe("#intToHexArray", function() {
     it("converts a number to an array of hex values", function() {
-      expect(utils.intToHexArray(255, 1)).to.be.eql([0x30, 0x46]);
-      expect(utils.intToHexArray(1, 1)).to.be.eql([0x30, 0x31]);
+      expect(utils.intToHexArray(1, 1)).to.be.eql([0x01]);
+      expect(utils.intToHexArray(255, 1)).to.be.eql([0xFF]);
+      expect(utils.intToHexArray(256, 1)).to.be.eql([0x00]);
+      expect(utils.intToHexArray(256, 2)).to.be.eql([0x01, 0x00]);
+      expect(utils.intToHexArray(255, 2)).to.be.eql([0x00, 0xFF]);
+      expect(utils.intToHexArray(257, 2)).to.be.eql([0x01, 0x01]);
+      expect(utils.intToHexArray(256, 4)).to.be.eql([0x00, 0x00, 0x01, 0x00]);
+      expect(utils.intToHexArray(257, 4)).to.be.eql([0x00, 0x00, 0x01, 0x01]);
+      expect(utils.intToHexArray(65535, 4)).to.be.eql([0x00, 0x00, 0xFF, 0xFF]);
+      expect(utils.intToHexArray(65535, 2)).to.be.eql([0xFF, 0xFF]);
     });
   });
 });
