@@ -249,6 +249,16 @@ describe("Sphero", function() {
     it("removes the callback from the queue", function() {
       expect(sphero.callbacks[0x04]).to.be.null;
     });
+
+    context("when queued callback has already been removed", function() {
+      it("does not exist and does not try to trigger it", function() {
+        sphero._queueCallback(0x04, callback);
+        expect(sphero.callbacks[0x04]).to.not.be.null;
+        sphero._execCallback(0x04, packet);
+        expect(sphero.callbacks[0x04]).to.be.null;
+        sphero._execCallback(0x04, packet);
+      });
+    });
   });
 
   describe("#_bindDevice", function() {
