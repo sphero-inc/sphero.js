@@ -131,5 +131,74 @@ describe("Core", function() {
       expect(core._coreCommand)
       .to.be.calledWith(0x22, [0x01, 0x00, 0xFF, 0x01, 0x00], callback);
     });
+
+    it("#getVoltageTripPoints calls #_coreCommand with params", function() {
+      core.getVoltageTripPoints(callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand).to.be.calledWith(0x23, null, callback);
+    });
+
+    it("#setVoltageTripPoints calls #_coreCommand with params", function() {
+      core.setVoltageTripPoints(0xFF00, 0x00FF, callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x24, [0xFF, 0x00, 0x00, 0xFF], callback);
+    });
+
+    it("#setInactiveTimeout calls #_coreCommand with params", function() {
+      core.setInactivityTimeout(0x0F, callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x25, [0x00, 0x0F], callback);
+    });
+
+    it("#jumpToBotloader calls #_coreCommand with params", function() {
+      core.jumpToBootloader(callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x30, null, callback);
+    });
+
+    it("#runL1Diags calls #_coreCommand with params", function() {
+      core.runL1Diags(callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x40, null, callback);
+    });
+
+    it("#runL2Diags calls #_coreCommand with params", function() {
+      core.runL2Diags(callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x41, null, callback);
+    });
+
+    it("#clearCounters calls #_coreCommand with params", function() {
+      core.clearCounters(callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x42, null, callback);
+    });
+
+    it("#_coreTimeCmd calls #_coreCommand with params", function() {
+      core._coreTimeCmd(0x50, 0xFF, callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x50, [0x00, 0x00, 0x00, 0xFF], callback);
+    });
+
+    it("#assignTime calls #_coreTimeCmd with params", function() {
+      core.assignTime(0xFF, callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x50, [0x00, 0x00, 0x00, 0xFF], callback);
+    });
+
+    it("#pollPacketTimes calls #_coreTimeCmd with params", function() {
+      core.pollPacketTimes(0xFF, callback);
+      expect(core._coreCommand).to.be.calledOnce;
+      expect(core._coreCommand)
+        .to.be.calledWith(0x51, [0x00, 0x00, 0x00, 0xFF], callback);
+    });
   });
 });
