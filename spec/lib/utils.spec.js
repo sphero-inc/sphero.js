@@ -31,4 +31,11 @@ describe("utils", function() {
       expect(utils.checksum(buffer)).to.be.eql(0x74);
     });
   });
+
+  describe("#intToHexArray", function() {
+    it("converts a number to an array of hex values", function() {
+      expect(utils.intToHexArray(255, 1)).to.be.eql([0x30, 0x46]);
+      expect(utils.intToHexArray(1, 1)).to.be.eql([0x30, 0x31]);
+    });
+  });
 });
