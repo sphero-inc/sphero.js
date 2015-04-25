@@ -1,10 +1,9 @@
 "use strict";
 
-var Sphero = require("../lib/sphero");
+var sphero = require("../lib/sphero");
+var orb = sphero("/dev/rfcomm0");
 
-var sphero = Sphero("/dev/rfcomm0");
-
-sphero.connect(function() {
+orb.connect(function() {
   console.log("::CONNECT EVENT::");
 
   // sphero.on("response", function(packet) {
@@ -17,7 +16,7 @@ sphero.connect(function() {
   //   console.log("  Packet:", packet);
   // });
 
-  sphero.ping(function(err, packet) {
+  orb.ping(function(err, packet) {
     if (err) {
       console.error(err);
       return;
@@ -28,7 +27,7 @@ sphero.connect(function() {
 
 
   setTimeout(function() {
-    sphero.version(function(err, packet) {
+    orb.version(function(err, packet) {
       if (err) {
         console.error(err);
         return;
@@ -39,7 +38,7 @@ sphero.connect(function() {
   }, 100);
 
   setTimeout(function() {
-    sphero.setDeviceName("r2d2-RPB", function(err, packet) {
+    orb.setDeviceName("r2d2-RPB", function(err, packet) {
       if (err) {
         console.error(err);
         return;
@@ -50,7 +49,7 @@ sphero.connect(function() {
   }, 300);
 
   setTimeout(function() {
-    sphero.getBluetoothInfo(function(err, packet) {
+    orb.getBluetoothInfo(function(err, packet) {
       if (err) {
         console.error(err);
         return;
@@ -60,9 +59,9 @@ sphero.connect(function() {
     });
   }, 200);
 
-  // // sphero.setAutoReconnect(1, 5);
-  // sphero.getAutoReconnect();
-  // sphero.getPowerState();
-  // sphero.setPowerNotification(1);
-  // sphero.sleep(10, 0, 0);
+  // //orb.setAutoReconnect(1, 5);
+  // orb.getAutoReconnect();
+  // orb.getPowerState();
+  // orb.setPowerNotification(1);
+  // orb.sleep(10, 0, 0);
 });

@@ -154,6 +154,49 @@ describe("Sphero", function() {
     });
   });
 
+  describe("#command", function() {
+    var opts, cmdByteArray, callback;
+
+    beforeEach(function() {
+      opts = {
+        sop2: 0xFF,
+        did: 0x00,
+        cid: 0x01,
+        seq: 0x01,
+        data: null
+      };
+
+      cmdByteArray = [0xFF, 0xFF, 0x00, 0x01, 0x01, 0xFE];
+
+      callback = spy();
+
+
+      sphero.sop2Bitfield = 0xFF;
+      stub(sphero.packet, "create");
+      stub(sphero, "_queueCallback");
+      stub(sphero.connection, "write");
+      stub(sphero, "_incSeq").returns(0x01);
+
+      sphero.packet.create.returns(cmdByteArray);
+
+      sphero.command(0x00, 0x01, null, callback);
+    });
+
+    it("calls @packet#create with params", function() {
+      expect(sphero.packet.create).to.be.calledOnce;
+      expect(sphero.packet.create).to.be.calledWith(opts);
+    });
+
+    it("calls #_queueCallback with params (0x00, callback)", function() {
+      expect(sphero._queueCallback).to.be.calledOnce;
+      expect(sphero._queueCallback).to.be.calledWith(0x01, callback);
+    });
+
+    it("calls @connection#write with param commandPacket", function() {
+      expect(sphero.connection.write).to.be.calledOnce;
+      expect(sphero.connection.write).to.be.calledWith(cmdByteArray);
+    });
+  });
   describe("#_incSeq", function() {
     var seq;
 
