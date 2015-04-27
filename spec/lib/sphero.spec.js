@@ -37,6 +37,16 @@ describe("Sphero", function() {
       expect(sphero.callbacks).to.be.an.instanceOf(Array);
       expect(sphero.callbacks.length).to.be.eql(256);
     });
+
+    it("adds core device methods", function() {
+      expect(sphero.ping).to.be.a("function");
+      expect(sphero.setDeviceName).to.be.a("function");
+    });
+
+    it("adds sphero device methods", function() {
+      expect(sphero.setHeading).to.be.a("function");
+      expect(sphero.setRGBLed).to.be.a("function");
+    });
   });
 
   describe("connect", function() {
@@ -197,6 +207,7 @@ describe("Sphero", function() {
       expect(sphero.connection.write).to.be.calledWith(cmdByteArray);
     });
   });
+
   describe("#_incSeq", function() {
     var seq;
 
