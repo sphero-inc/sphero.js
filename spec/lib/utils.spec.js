@@ -46,4 +46,27 @@ describe("utils", function() {
       expect(utils.intToHexArray(65535, 2)).to.be.eql([0xFF, 0xFF]);
     });
   });
+
+  describe("#commandProxy", function() {
+    var address = 0x10,
+        context;
+
+    beforeEach(function() {
+      context = { command: spy() };
+    });
+
+    it("proxies commands to the provided context", function() {
+      var proxy = utils.commandProxy(context, address),
+          callback = spy();
+
+      proxy(0x1A, "hello there!", callback);
+
+      expect(context.command).to.be.calledWith(
+        address,
+        0x1A,
+        "hello there!",
+        callback
+      );
+    });
+  });
 });
