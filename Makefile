@@ -12,7 +12,7 @@ lint:
 	$(bin)eslint lib spec
 
 test:
-	$(bin)mocha --colors -R dot -- spec/helper.js spec/lib/**/*
+	$(bin)mocha --colors -R dot -- $(TEST_FILES)
 
 cover:
 	@istanbul cover $(BIN)/_mocha $(TEST_FILES) --report lcovonly -- -R spec
