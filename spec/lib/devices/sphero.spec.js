@@ -2,9 +2,12 @@
 
 var mutator = lib("devices/sphero");
 
-<<<<<<< HEAD
 describe("Sphero", function() {
   var sphero;
+
+  it("is a function", function() {
+    expect(mutator).to.be.a("function");
+  });
 
   beforeEach(function() {
     sphero = { command: spy() };
@@ -324,12 +327,5 @@ describe("Sphero", function() {
         );
     });
   });
-=======
-describe("Sphero Mutator", function() {
-  it("is a function", function() {
-    expect(mutator).to.be.a("function");
-  });
 
-  it("needs specs");
->>>>>>> bdfb73bac6d56e33c7077927d21b24ce088b6399
 });
