@@ -37,6 +37,16 @@ describe("Sphero", function() {
       expect(sphero.callbacks).to.be.an.instanceOf(Array);
       expect(sphero.callbacks.length).to.be.eql(256);
     });
+
+    it("adds core device methods", function() {
+      expect(sphero.ping).to.be.a("function");
+      expect(sphero.setDeviceName).to.be.a("function");
+    });
+
+    it("adds sphero device methods", function() {
+      expect(sphero.setHeading).to.be.a("function");
+      expect(sphero.setRGBLed).to.be.a("function");
+    });
   });
 
   describe("connect", function() {
@@ -197,6 +207,7 @@ describe("Sphero", function() {
       expect(sphero.connection.write).to.be.calledWith(cmdByteArray);
     });
   });
+
   describe("#_incSeq", function() {
     var seq;
 
@@ -301,34 +312,6 @@ describe("Sphero", function() {
         expect(sphero.callbacks[0x04]).to.be.null;
         sphero._execCallback(0x04, packet);
       });
-    });
-  });
-
-  describe("#_bindDevice", function() {
-    var device;
-
-    beforeEach(function() {
-      device = {
-        cmdOne: function() {
-          return "one";
-        },
-        cmdTwo: function() {
-          return "two";
-        },
-        cmdThree: function() {
-          return "tres";
-        }
-      };
-
-      sphero._bindDevice(device);
-    });
-
-    it("adds and binds device properties", function() {
-      expect(sphero.cmdOne).to.be.a("function");
-    });
-
-    it("bound command to return a value", function() {
-      expect(sphero.cmdOne()).to.be.eql("one");
     });
   });
 });
