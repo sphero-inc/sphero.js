@@ -40,12 +40,6 @@ describe("Sphero", function() {
       expect(sphero.command).to.be.calledWith(0x02, 0x03, [0xB4], callback);
     });
 
-    it("#reEnableDemo calls #command with params", function() {
-      sphero.reEnableDemo(callback);
-      expect(sphero.command).to.be.calledOnce;
-      expect(sphero.command).to.be.calledWith(0x02, 0x06, null, callback);
-    });
-
     it("#getChassisId calls #command with params", function() {
       sphero.getChassisId(callback);
       expect(sphero.command).to.be.calledOnce;
