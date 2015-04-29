@@ -273,15 +273,11 @@ describe("Sphero", function() {
         );
     });
 
-    it("#setDeviceMode  calls #command with params", function() {
+    it("#setDeviceMode calls #command with params", function() {
       sphero.setDeviceMode(0x00, callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
-        .to.be.calledWith(
-          0x02, 0x42,
-          [0x00],
-          callback
-        );
+        .to.be.calledWith(0x02, 0x42, [0x00], callback);
     });
 
     it("#setConfigBlock calls #command with params", function() {
@@ -289,20 +285,16 @@ describe("Sphero", function() {
 
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
-        .to.be.calledWith(
-          0x02, 0x43,
-          [0x01, 0x02, 0x03],
-          callback
-        );
+        .to.be.calledWith(0x02, 0x43, [0x01, 0x02, 0x03], callback);
     });
 
-    it("#getDeviceMode  calls #command with params", function() {
+    it("#getDeviceMode calls #command with params", function() {
       sphero.getDeviceMode(callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command).to.be.calledWith(0x02, 0x44, null, callback);
     });
 
-    it("#getSSB  calls #command with params", function() {
+    it("#getSSB calls #command with params", function() {
       sphero.getSSB(callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command).to.be.calledWith(0x02, 0x46, null, callback);
@@ -320,6 +312,174 @@ describe("Sphero", function() {
           callback
         );
     });
-  });
 
+    it("#refillBank calls #command with params", function() {
+      sphero.refillBank(0xAA, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command).to.be.calledWith(0x02, 0x48, [0xAA], callback);
+    });
+
+    it("#buyConsumable calls #command with params", function() {
+      sphero.buyConsumable(0xCC, 0x0F, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x49, [0xCC, 0x0F], callback);
+    });
+
+    it("#useConsumable calls #command with params", function() {
+      sphero.useConsumable(0xCC, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command).to.be.calledWith(0x02, 0x4A, [0xCC], callback);
+    });
+
+    it("#grantCores calls #command with params", function() {
+      sphero.grantCores(0xAA, 0xBB, 0xCC, callback);
+      var byteArray = [
+        0x00, 0x00, 0x00, 0xAA,
+        0x00, 0x00, 0x00, 0xBB,
+        0xCC
+      ];
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x4B, byteArray, callback);
+    });
+
+    it("#addXp calls #command with params", function() {
+      sphero.addXp(0xCC, 0xFF, callback);
+      var byteArray = [
+        0x00, 0x00, 0x00, 0xCC,
+        0xFF
+      ];
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x4C, byteArray, callback);
+    });
+
+    it("#levelUpAttr calls #command with params", function() {
+      sphero.levelUpAttr(0xCC, 0xFF, callback);
+      var byteArray = [
+        0x00, 0x00, 0x00, 0xCC,
+        0xFF
+      ];
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x4D, byteArray, callback);
+    });
+
+    it("#getPasswordSeed calls #command with params", function() {
+      sphero.getPasswordSeed(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command).to.be.calledWith(0x02, 0x4E, null, callback);
+    });
+
+    it("#enableSSBAsyncMsg calls #command with params", function() {
+      sphero.enableSSBAsyncMsg(0x01, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command).to.be.calledWith(0x02, 0x4F, [0x01], callback);
+    });
+
+    it("#runMacro calls #command with params", function() {
+      sphero.runMacro(0x0F, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command).to.be.calledWith(0x02, 0x50, [0x0F], callback);
+    });
+
+    it("#saveTempMacro calls #command with params", function() {
+      sphero.saveTempMacro([0x01, 0x02, 0x03], callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x51, [0x01, 0x02, 0x03], callback);
+    });
+
+    it("#saveMacro calls #command with params", function() {
+      sphero.saveMacro([0x01, 0x02, 0x03], callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x52, [0x01, 0x02, 0x03], callback);
+    });
+
+    it("#reInitMacroExec calls #command with params", function() {
+      sphero.reInitMacroExec(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x54, null, callback);
+    });
+
+    it("#abortMacro calls #command with params", function() {
+      sphero.abortMacro(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x55, null, callback);
+    });
+
+    it("#getMacroStatus calls #command with params", function() {
+      sphero.getMacroStatus(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x56, null, callback);
+    });
+
+    it("#setMacroParam calls #command with params", function() {
+      sphero.setMacroParam(0x01, 0x02, 0x03, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x57, [0x01, 0x02, 0x03], callback);
+    });
+
+    it("#appendMacroChunk calls #command with params", function() {
+      sphero.appendMacroChunk([0x01, 0x02, 0x03], callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x58, [0x01, 0x02, 0x03], callback);
+    });
+
+    it("#eraseOrbBasicStorage calls #command with params", function() {
+      sphero.eraseOrbBasicStorage(0x0F, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x60, [0x0F], callback);
+    });
+
+    it("#appendOrbBasicFragment calls #command with params", function() {
+      sphero.appendOrbBasicFragment(0x0F, [0x01, 0x02, 0x03], callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x61, [0x0F, 0x01, 0x02, 0x03], callback);
+    });
+
+    it("#executeOrbBasicProgram calls #command with params", function() {
+      sphero.executeOrbBasicProgram(0x0F, 0x0F, 0x0B, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x62, [0x0F, 0x0F, 0x0B], callback);
+    });
+
+    it("#abortOrbBasicProgram calls #command with params", function() {
+      sphero.abortOrbBasicProgram(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x63, null, callback);
+    });
+
+    it("#submitValueToInput calls #command with params", function() {
+      sphero.submitValueToInput(0x0F, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x64, [0x00, 0x00, 0x00, 0x0F], callback);
+    });
+
+    it("#commitToFlash calls #command with params", function() {
+      sphero.commitToFlash(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x65, null, callback);
+    });
+
+    it("#_commitToFlashAlias calls #command with params", function() {
+      sphero._commitToFlashAlias(callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x70, null, callback);
+    });
+  });
 });
