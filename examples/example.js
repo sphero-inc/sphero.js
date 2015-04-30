@@ -1,7 +1,7 @@
 "use strict";
 
 var sphero = require("../lib/sphero");
-var orb = sphero("/dev/rfcomm0", { deadtime: 150 });
+var orb = sphero("/dev/rfcomm0", { timeout: 300 });
 
 orb.connect(function() {
   console.log("::CONNECT EVENT::");
