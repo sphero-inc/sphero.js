@@ -33,9 +33,9 @@ describe("Sphero", function() {
       expect(sphero.seqCounter).to.be.eql(0x00);
     });
 
-    it("sets callbacks array to 256 length array", function() {
-      expect(sphero.callbacks).to.be.an.instanceOf(Array);
-      expect(sphero.callbacks.length).to.be.eql(256);
+    it("sets callbackQueue array to 256 length array", function() {
+      expect(sphero.callbackQueue).to.be.an.instanceOf(Array);
+      expect(sphero.callbackQueue.length).to.be.eql(256);
     });
 
     it("adds core device methods", function() {
@@ -256,13 +256,13 @@ describe("Sphero", function() {
       fakeTimers.restore();
     });
 
-    it("adds the callback to the @callbacks queue", function() {
-      expect(sphero.callbacks[0]).to.not.be.null;
+    it("adds the callback to the @callbackQueue queue", function() {
+      expect(sphero.callbackQueue[0]).to.not.be.null;
     });
 
-    it("removes the callback from @callbacks after 100ms", function() {
+    it("removes the callback from @callbackQueue after 100ms", function() {
       fakeTimers.tick(101);
-      expect(sphero.callbacks[0]).to.be.null;
+      expect(sphero.callbackQueue[0]).to.be.null;
     });
 
     it("triggers the callback passed", function() {
@@ -301,15 +301,15 @@ describe("Sphero", function() {
     });
 
     it("removes the callback from the queue", function() {
-      expect(sphero.callbacks[0x04]).to.be.null;
+      expect(sphero.callbackQueue[0x04]).to.be.null;
     });
 
     context("when queued callback has already been removed", function() {
       it("does not exist and does not try to trigger it", function() {
         sphero._queueCallback(0x04, callback);
-        expect(sphero.callbacks[0x04]).to.not.be.null;
+        expect(sphero.callbackQueue[0x04]).to.not.be.null;
         sphero._execCallback(0x04, packet);
-        expect(sphero.callbacks[0x04]).to.be.null;
+        expect(sphero.callbackQueue[0x04]).to.be.null;
         sphero._execCallback(0x04, packet);
       });
     });
