@@ -33,9 +33,8 @@ describe("Sphero", function() {
       expect(sphero.seqCounter).to.be.eql(0x00);
     });
 
-    it("sets callbackQueue array to 256 length array", function() {
-      expect(sphero.callbackQueue).to.be.an.instanceOf(Array);
-      expect(sphero.callbackQueue.length).to.be.eql(256);
+    it("sets callbackQueue array to an empty array", function() {
+      expect(sphero.callbackQueue).to.be.eql([]);
     });
 
     it("adds core device methods", function() {
@@ -260,14 +259,14 @@ describe("Sphero", function() {
       expect(sphero.callbackQueue[0]).to.not.be.null;
     });
 
-    it("removes the callback from @callbackQueue after 100ms", function() {
-      fakeTimers.tick(101);
+    it("removes the callback from @callbackQueue after 500ms", function() {
+      fakeTimers.tick(500);
       expect(sphero.callbackQueue[0]).to.be.null;
     });
 
     it("triggers the callback passed", function() {
       var error = new Error("Command sync response was lost.");
-      fakeTimers.tick(101);
+      fakeTimers.tick(500);
       expect(callback).to.be.calledWith(error, null);
     });
   });
