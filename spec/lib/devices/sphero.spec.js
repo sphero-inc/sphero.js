@@ -193,6 +193,13 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x30, [0xFF, 0x00, 0xB4, 0x02], callback);
     });
 
+    it("#roll sets state if not provided", function() {
+      sphero.roll(0xFF, 0xB4);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x30, [0xFF, 0x00, 0xB4, 0x01], undefined);
+    });
+
     it("#boost calls #command with params", function() {
       sphero.boost(0x01, callback);
       expect(sphero.command).to.be.calledOnce;
