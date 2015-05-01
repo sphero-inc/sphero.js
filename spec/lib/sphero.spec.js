@@ -46,6 +46,10 @@ describe("Sphero", function() {
       expect(sphero.setHeading).to.be.a("function");
       expect(sphero.setRGBLed).to.be.a("function");
     });
+
+    it("adds custom device methods", function() {
+      expect(sphero.color).to.be.a("function");
+    });
   });
 
   describe("connect", function() {
