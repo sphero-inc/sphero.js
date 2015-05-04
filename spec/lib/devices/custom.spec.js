@@ -3,14 +3,19 @@
 var mutator = lib("devices/custom");
 
 describe("Custom Device Functions", function() {
-  var device = {}, rgb;
+  var device = {};
 
   beforeEach(function() {
-    rgb = device.setRGBLed = spy();
     mutator(device);
   });
 
   describe("#color", function() {
+    var rgb;
+
+    beforeEach(function() {
+      rgb = device.setRGBLed = spy();
+    });
+
     it("proxies callbacks", function() {
       var color = { red: 255, green: 0, blue: 0 },
           callback = spy();
@@ -55,6 +60,41 @@ describe("Custom Device Functions", function() {
         device.color(color);
         expect(rgb).to.be.calledWithMatch({ red: 250, green: 10, blue: 125 });
       });
+    });
+  });
+
+  describe("#detectCollisions", function() {
+    beforeEach(function() {
+      device.configureCollisions = spy();
+      device.on = stub();
+      device.emit = stub();
+
+      device.detectCollisions();
+    });
+
+    it("configures collision detection for Sphero", function() {
+      expect(device.configureCollisions).to.be.calledWith({
+        meth: 0x01,
+        xt: 0x40,
+        yt: 0x40,
+        xs: 0x50,
+        ys: 0x50,
+        dead: 0x50
+      });
+    });
+
+    it("emits collision packets as they come in", function() {
+      var packet;
+
+      expect(device.on).to.be.calledWith("async");
+
+      packet = { idCode: 0, dlen: 4 };
+      device.on.yield(packet);
+      expect(device.emit).to.not.be.called;
+
+      packet = { idCode: 0x07, dlen: 0x11 };
+      device.on.yield(packet);
+      expect(device.emit).to.be.calledWith("collision", packet);
     });
   });
 });
