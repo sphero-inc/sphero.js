@@ -56,9 +56,9 @@ orb.connect(function() {
 
   orb.getPowerState();
   orb.setPowerNotification(1);
+  orb.setRGBLed({red: 0x00, green: 0x00, blue: 0xFF});
   orb.setRGBLed({red: 0xFF, green: 0x00, blue: 0x00});
   orb.setRGBLed({red: 0x00, green: 0xFF, blue: 0x00});
-  orb.setRGBLed({red: 0x00, green: 0x00, blue: 0xFF});
   orb.getRGBColor(function(err, packet) {
     if (err) {
       console.log("error ->", err);
