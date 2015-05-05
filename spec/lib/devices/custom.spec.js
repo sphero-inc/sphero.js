@@ -82,19 +82,5 @@ describe("Custom Device Functions", function() {
         dead: 0x50
       });
     });
-
-    it("emits collision packets as they come in", function() {
-      var packet;
-
-      expect(device.on).to.be.calledWith("async");
-
-      packet = { idCode: 0, dlen: 4 };
-      device.on.yield(packet);
-      expect(device.emit).to.not.be.called;
-
-      packet = { idCode: 0x07, dlen: 0x11 };
-      device.on.yield(packet);
-      expect(device.emit).to.be.calledWith("collision", packet);
-    });
   });
 });

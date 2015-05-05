@@ -138,11 +138,36 @@ describe("Sphero", function() {
     context("with an async response", function() {
       beforeEach(function() {
         packet.sop2 = 0xFE;
+        packet.idCode = 0x07;
+        packet.data = new Buffer([
+          0x00, 0xFF,
+          0x00, 0xFE,
+          0x00, 0xFD,
+          0x01,
+          0x00, 0x01,
+          0x00, 0x02,
+          0x10,
+          0x01, 0x02, 0X03, 0x04
+          ]);
         sphero.connect(callback);
       });
 
       it("emits an async event", function() {
-        expect(sphero.emit).to.be.calledWith("async", packet);
+        expect(sphero.emit).to.be.calledWith("async", {
+          axis: 1,
+          CID: 18,
+          DID: 2,
+          idCode: 7,
+          event: "collision",
+          packet: packet,
+          x: 255,
+          y: 254,
+          z: 253,
+          speed: 16,
+          xMagnitude: 1,
+          yMagnitude: 2,
+          timestamp: 16909060
+        });
       });
     });
 
