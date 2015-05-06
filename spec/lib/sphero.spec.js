@@ -158,6 +158,26 @@ describe("Sphero", function() {
           CID: 18,
           DID: 2,
           idCode: 7,
+          desc: "Collision detected",
+          event: "collision",
+          packet: packet,
+          x: 255,
+          y: 254,
+          z: 253,
+          speed: 16,
+          xMagnitude: 1,
+          yMagnitude: 2,
+          timestamp: 16909060
+        });
+      });
+
+      it("emits a collision event", function() {
+        expect(sphero.emit).to.be.calledWith("collision", {
+          axis: 1,
+          CID: 18,
+          DID: 2,
+          idCode: 7,
+          desc: "Collision detected",
           event: "collision",
           packet: packet,
           x: 255,
