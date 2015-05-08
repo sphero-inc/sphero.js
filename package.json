@@ -1,5 +1,6 @@
 {
-  "name": "sphero.js",
+  "name": "sphero",
+  "main": "lib/sphero.js",
   "version": "0.1.0",
   "description": "Sphero.js",
   "homepage": "http://gosphero.com",
