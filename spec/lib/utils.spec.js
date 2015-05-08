@@ -4,14 +4,17 @@ var utils = lib("utils");
 
 describe("utils", function() {
   describe("randomColor", function() {
-    it("returns a random hex color", function() {
+    it("returns a random color object", function() {
       var random = utils.randomColor;
 
-      expect(random()).to.be.a("number");
+      expect(random()).to.be.an("object");
       expect(random()).to.not.be.eql(random());
 
-      var val = random().toString();
-      expect(Number.isNaN(parseInt(val, 16))).to.be.eql(false);
+      var val = random();
+
+      expect(val.red).to.be.a("number");
+      expect(val.green).to.be.a("number");
+      expect(val.blue).to.be.a("number");
     });
   });
 
