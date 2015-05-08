@@ -68,15 +68,20 @@ describe("Sphero", function() {
       };
 
       stub(sphero, "emit");
+      stub(sphero, "_responseCmd");
       stub(sphero, "_execCallback");
       stub(sphero.packet, "on");
       stub(sphero.packet, "parse");
+      stub(sphero.packet, "parseResponseData");
+      // stub(sphero.packet, "parseAsyncData");
       stub(sphero.connection, "open");
       stub(sphero.connection, "onRead");
       stub(sphero.connection, "on");
 
       sphero.packet.on.yields();
       sphero.packet.parse.returns(packet);
+      sphero.packet.parseResponseData.returns(packet);
+      // sphero.packet.parseAsyncData.returns(packet);
       sphero.connection.open.yields();
       sphero.connection.on.yields();
       sphero.connection.onRead.yields(buffer);
@@ -89,6 +94,8 @@ describe("Sphero", function() {
       sphero._execCallback.restore();
       sphero.packet.on.restore();
       sphero.packet.parse.restore();
+      sphero.packet.parseResponseData.restore();
+      // sphero.packet.parseAsyncData.restore();
       sphero.connection.open.restore();
       sphero.connection.on.restore();
     });
@@ -149,14 +156,15 @@ describe("Sphero", function() {
           0x10,
           0x01, 0x02, 0X03, 0x04
           ]);
+
         sphero.connect(callback);
       });
 
       it("emits an async event", function() {
         expect(sphero.emit).to.be.calledWith("async", {
           axis: 1,
-          CID: 18,
-          DID: 2,
+          cid: 18,
+          did: 2,
           idCode: 7,
           desc: "Collision detected",
           event: "collision",
@@ -174,8 +182,8 @@ describe("Sphero", function() {
       it("emits a collision event", function() {
         expect(sphero.emit).to.be.calledWith("collision", {
           axis: 1,
-          CID: 18,
-          DID: 2,
+          cid: 18,
+          did: 2,
           idCode: 7,
           desc: "Collision detected",
           event: "collision",
@@ -245,9 +253,9 @@ describe("Sphero", function() {
       expect(sphero.packet.create).to.be.calledWith(opts);
     });
 
-    it("calls #_queueCallback with params (0x00, callback)", function() {
+    it("calls #_queueCallback with params (cmdPacket, callback)", function() {
       expect(sphero._queueCallback).to.be.calledOnce;
-      expect(sphero._queueCallback).to.be.calledWith(0x01, callback);
+      expect(sphero._queueCallback).to.be.calledWith(cmdByteArray, callback);
     });
 
     it("calls @connection#write with param commandPacket", function() {
@@ -289,15 +297,16 @@ describe("Sphero", function() {
   });
 
   describe("#_queueCallback", function() {
-    var callback, fakeTimers;
+    var callback, fakeTimers, cmdPacket;
 
     beforeEach(function() {
+      cmdPacket = new Buffer([0xFF, 0xFD, 0x00, 0x01, 0x04, 0x01, 0xFD]);
       sphero.seqCounter = 0;
       fakeTimers = sinon.useFakeTimers();
 
       callback = spy();
 
-      sphero._queueCallback(0x00, callback);
+      sphero._queueCallback(cmdPacket, callback);
     });
 
     afterEach(function() {
@@ -305,12 +314,12 @@ describe("Sphero", function() {
     });
 
     it("adds the callback to the @callbackQueue queue", function() {
-      expect(sphero.callbackQueue[0]).to.not.be.null;
+      expect(sphero.callbackQueue[4]).to.not.be.null;
     });
 
     it("removes the callback from @callbackQueue after 500ms", function() {
       fakeTimers.tick(500);
-      expect(sphero.callbackQueue[0]).to.be.null;
+      expect(sphero.callbackQueue[4]).to.be.null;
     });
 
     it("triggers the callback passed", function() {
@@ -321,9 +330,11 @@ describe("Sphero", function() {
   });
 
   describe("#_execCallback", function() {
-    var fakeTimers, callback, packet;
+    var fakeTimers, callback, packet, cmdPacket;
 
     beforeEach(function() {
+      cmdPacket = new Buffer([0xFF, 0xFD, 0x00, 0x01, 0x04, 0x01, 0xFD]);
+
       packet = {
         sop1: 0xFF,
         sop2: 0xFF,
@@ -336,7 +347,7 @@ describe("Sphero", function() {
       fakeTimers = sinon.useFakeTimers();
       callback = spy();
 
-      sphero._queueCallback(0x04, callback);
+      sphero._queueCallback(cmdPacket, callback);
       sphero._execCallback(0x04, packet);
     });
 
@@ -354,7 +365,7 @@ describe("Sphero", function() {
 
     context("when queued callback has already been removed", function() {
       it("does not exist and does not try to trigger it", function() {
-        sphero._queueCallback(0x04, callback);
+        sphero._queueCallback(cmdPacket, callback);
         expect(sphero.callbackQueue[0x04]).to.not.be.null;
         sphero._execCallback(0x04, packet);
         expect(sphero.callbackQueue[0x04]).to.be.null;
