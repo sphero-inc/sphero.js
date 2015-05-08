@@ -1,6 +1,7 @@
 "use strict";
 
-var mutator = lib("devices/custom");
+var mutator = lib("devices/custom"),
+    utils = lib("utils");
 
 describe("Custom Device Functions", function() {
   var device = {};
@@ -60,6 +61,26 @@ describe("Custom Device Functions", function() {
         device.color(color);
         expect(rgb).to.be.calledWithMatch({ red: 250, green: 10, blue: 125 });
       });
+    });
+  });
+
+  describe("#randomColor", function() {
+    var rgb, color;
+
+    beforeEach(function() {
+      rgb = device.setRGBLed = spy();
+      color = { red: "red", green: "green", blue: "blue" };
+      stub(utils, "randomColor").returns(color);
+    });
+
+    afterEach(function() {
+      utils.randomColor.restore();
+    });
+
+    it("sets Sphero to a random color", function() {
+      var callback = spy();
+      device.randomColor(callback);
+      expect(rgb).to.be.calledWith(color, callback);
     });
   });
 
