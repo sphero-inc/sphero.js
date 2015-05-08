@@ -83,4 +83,43 @@ describe("Custom Device Functions", function() {
       });
     });
   });
+
+  describe("#startCalibration", function() {
+    beforeEach(function() {
+      device.setStabilization = spy();
+      device.setBackLed = stub();
+
+      device.startCalibration();
+    });
+
+    it("disables stabilization", function() {
+      expect(device.setStabilization).to.be.calledWith(0);
+    });
+
+    it("turns on the back LED", function() {
+      expect(device.setBackLed).to.be.calledWith(127);
+    });
+  });
+
+  describe("#finishCalibration", function() {
+    beforeEach(function() {
+      device.setStabilization = spy();
+      device.setHeading = spy();
+      device.setBackLed = stub();
+
+      device.finishCalibration();
+    });
+
+    it("enables stabilization", function() {
+      expect(device.setStabilization).to.be.calledWith(1);
+    });
+
+    it("sets a new heading", function() {
+      expect(device.setHeading).to.be.calledWith(0);
+    });
+
+    it("turns off the back LED", function() {
+      expect(device.setBackLed).to.be.calledWith(0);
+    });
+  });
 });
