@@ -10,7 +10,7 @@ describe("Sphero", function() {
   });
 
   beforeEach(function() {
-    sphero = { command: spy() };
+    sphero = { command: spy(), ds: {} };
     mutator(sphero);
   });
 
