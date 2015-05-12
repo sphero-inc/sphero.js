@@ -1,19 +1,20 @@
 "use strict";
 
-var sphero = require("../lib/sphero");
-var orb = sphero("/dev/rfcomm0", { timeout: 300 });
+var sphero = require("../");
+var orb = sphero("/dev/rfcomm0");
 
 orb.connect(function() {
-  console.log("::CONNECT EVENT::");
+  orb.detectCollisions();
+  orb.color("green");
 
   orb.on("collision", function(data) {
-    console.log("::COLLISION PACKET::");
-    console.log("  Data:", data);
-    orb.setRGBLed({red: 0xFF, green: 0x00, blue: 0x00});
+    console.log("collision detected");
+    console.log("  data:", data);
+
+    orb.color("red");
+
     setTimeout(function() {
-      orb.setRGBLed({red: 0x00, green: 0x00, blue: 0xFF});
+      orb.color("green");
     }, 1000);
   });
-
-  orb.detectCollisions();
 });

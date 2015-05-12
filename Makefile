@@ -9,7 +9,7 @@ all: lint test
 default: lint test
 
 lint:
-	$(bin)eslint lib spec
+	$(bin)eslint lib spec examples
 
 test:
 	$(bin)mocha --colors -R dot -- $(TEST_FILES)
