@@ -1,6 +1,5 @@
 {
   "name": "sphero",
-  "main": "lib/sphero.js",
   "version": "0.1.0",
   "description": "Sphero.js",
   "homepage": "http://gosphero.com",
@@ -26,7 +25,6 @@
   "dependencies": {
     "serialport": "1.6.3",
     "browser-serialport": "2.0.2",
-    "lodash": "3.6.0",
     "debug": "2.1.3"
   }
 }
