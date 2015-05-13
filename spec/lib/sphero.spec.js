@@ -1,6 +1,6 @@
 "use strict";
 
-var factory = lib("sphero");
+var Sphero = lib("sphero");
 
 var Packet = lib("packet"),
     SerialPort = lib("adaptors/serialport");
@@ -9,7 +9,7 @@ describe("Sphero", function() {
   var sphero;
 
   beforeEach(function() {
-    sphero = factory("/dev/rfcomm0");
+    sphero = new Sphero("/dev/rfcomm0");
   });
 
   describe("#constructor", function() {
