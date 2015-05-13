@@ -14,11 +14,14 @@ orb.connect(function() {
   orb.setDataStreaming({
     n: 400,
     m: 1,
-    mask1: 0x1C000000,
+    mask1: 0x00000060,
     pcnt: 0,
-    mask2: 0x00000000
+    mask2: 0xFF800000
   }, function(err, data) {
     console.log("Simple response err:", err);
     console.log("Simple response data:", data);
   });
+
+  orb.roll(255, 0);
+
 });
