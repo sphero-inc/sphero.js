@@ -1,27 +1,24 @@
 "use strict";
 
-var sphero = require("../lib/sphero");
-var orb = sphero("/dev/rfcomm0", { timeout: 300 });
+var sphero = require("../");
+var orb = sphero("/dev/rfcomm0");
 
 orb.connect(function() {
-  console.log("::CONNECT EVENT::");
-
-  orb.on("dataStreaming", function(data) {
-    console.log("::DATA STREAMING PACKET::");
-    console.log("  Data:", data);
-  });
-
-  orb.setDataStreaming({
+  // options for streaming data
+  var opts = {
     n: 400,
     m: 1,
     mask1: 0x00000060,
     pcnt: 0,
     mask2: 0xFF800000
-  }, function(err, data) {
-    console.log("Simple response err:", err);
-    console.log("Simple response data:", data);
+  };
+
+  orb.setDataStreaming(opts);
+
+  orb.on("dataStreaming", function(data) {
+    console.log("streaming data packet recieved");
+    console.log("  data:", data);
   });
 
   orb.roll(255, 0);
-
 });
