@@ -6,9 +6,9 @@ var orb = sphero("/dev/rfcomm0");
 orb.connect(function() {
   // options for streaming data
   var opts = {
-    n: 200,
+    n: 400,
     m: 1,
-    mask1: 0xE0000000,
+    mask1: 0x00000000,
     pcnt: 0,
     mask2: 0x01800000
   };
@@ -20,5 +20,8 @@ orb.connect(function() {
     console.log("  data:", data);
   });
 
-  //orb.roll(255, 0);
+  setInterval(function() {
+    var direction = Math.floor(Math.random() * 360);
+    orb.roll(150, direction);
+  }, 1000);
 });
