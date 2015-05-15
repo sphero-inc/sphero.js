@@ -7,10 +7,10 @@ orb.connect(function() {
   // options for streaming data
   var opts = {
     n: 200,
-    m: 4,
-    mask1: 0x0000E000,
+    m: 1,
+    mask1: 0xE0000000,
     pcnt: 0,
-    mask2: 0x00000000
+    mask2: 0x01800000
   };
 
   orb.setDataStreaming(opts);
