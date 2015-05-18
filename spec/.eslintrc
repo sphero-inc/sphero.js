@@ -1,0 +1,15 @@
+env:
+  mocha: true
+
+globals:
+  expect: true
+  lib: true
+  stub: true
+  spy: true
+  chai: true
+  sinon: true
+
+rules:
+  no-unused-expressions: 0
+  max-nested-callbacks: 0
+  camelcase: 0

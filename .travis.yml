@@ -1,0 +1,14 @@
+language: node_js
+sudo: false
+node_js:
+  - '0.10'
+  - '0.12'
+  - 'iojs'
+before_install:
+  - "mkdir -p ~/.npm"
+before_script:
+  - npm install -g istanbul codeclimate-test-reporter
+script:
+  - grunt lint
+  - istanbul cover ./node_modules/.bin/_mocha ./spec/helper.js spec/lib/**/*.js --report lcovonly -- -R spec
+  - CODECLIMATE_REPO_TOKEN=0781eab76706eb191ddfadc0a86dc3ad75fa34a9996d6c6e55a6e5fc454ba520 codeclimate < coverage/lcov.info

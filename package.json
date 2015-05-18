@@ -1,0 +1,33 @@
+{
+  "name": "sphero",
+  "version": "0.2.0",
+  "description": "Sphero.js",
+  "homepage": "http://gosphero.com",
+  "bugs": "https://github.com/orbotix/sphero.js/issues",
+  "author": "Orbotix Inc.",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orbotix/sphero.js"
+  },
+
+  "license": "MIT",
+
+  "devDependencies": {
+    "sinon-chai": "2.7.0",
+    "chai": "2.3.0",
+    "sinon": "1.14.1",
+
+    "grunt": "0.4.5",
+    "grunt-eslint": "13.0.0",
+    "grunt-simple-mocha": "0.4.0",
+
+    "mocha": "*"
+  },
+
+  "dependencies": {
+    "serialport": "1.7.1",
+    "browser-serialport": "2.0.2",
+    "debug": "2.2.0"
+  }
+}
