@@ -11,4 +11,4 @@ before_script:
 script:
   - grunt lint
   - istanbul cover ./node_modules/.bin/_mocha ./spec/helper.js spec/lib/**/*.js --report lcovonly -- -R spec
-  - CODECLIMATE_REPO_TOKEN=0781eab76706eb191ddfadc0a86dc3ad75fa34a9996d6c6e55a6e5fc454ba520 codeclimate < coverage/lcov.info
+  - CODECLIMATE_REPO_TOKEN=88ec807c5d22e853e1a21b9289233f525e793f09e5e81322899ee519587d3689 codeclimate < coverage/lcov.info
