@@ -7,7 +7,7 @@ node_js:
 before_install:
   - "mkdir -p ~/.npm"
 before_script:
-  - npm install -g istanbul codeclimate-test-reporter
+  - npm install -g grunt-cli istanbul codeclimate-test-reporter
 script:
   - grunt lint
   - istanbul cover ./node_modules/.bin/_mocha ./spec/helper.js spec/lib/**/*.js --report lcovonly -- -R spec
