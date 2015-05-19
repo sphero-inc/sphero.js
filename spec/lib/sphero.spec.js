@@ -220,6 +220,20 @@ describe("Sphero", function() {
     });
   });
 
+  describe("#disconnect", function() {
+    var callback;
+
+    beforeEach(function() {
+      callback = spy();
+      sphero.connection.close = stub();
+      sphero.disconnect(callback);
+    });
+
+    it("tells the Sphero adaptor to disconnect", function() {
+      expect(sphero.connection.close).to.be.calledWith(callback);
+    });
+  });
+
   describe("#command", function() {
     var opts, cmdByteArray, callback;
 
