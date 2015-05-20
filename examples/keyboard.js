@@ -1,6 +1,7 @@
 "use strict";
 
 /* eslint no-use-before-define: 0 */
+/* eslint no-process-exit: 0 */
 
 var sphero = require("../");
 
@@ -12,12 +13,21 @@ var orb = sphero("/dev/rfcomm0");
 orb.connect(listen);
 
 function handle(ch, key) {
-  if (key.ctrl && key.name === "c") {
-    process.stdin.pause();
-  }
-
   var stop = orb.roll.bind(orb, 0, 0),
       roll = orb.roll.bind(orb, 60);
+
+  if (key.ctrl && key.name === "c") {
+    process.stdin.pause();
+    process.exit();
+  }
+
+  if (key.name === "e") {
+    orb.startCalibration();
+  }
+
+  if (key.name === "q") {
+    orb.finishCalibration();
+  }
 
   if (key.name === "up") {
     roll(0);
