@@ -49,4 +49,27 @@ describe("utils", function() {
       expect(utils.intToHexArray(65535, 2)).to.be.eql([0xFF, 0xFF]);
     });
   });
+
+  describe("#argsToHexArray", function() {
+    it("converts arguments to an bytes array of hex values", function() {
+      var array = utils.argsToHexArray(128, 255, 32);
+      expect(array).to.be.eql([128, 255, 32]);
+    });
+  });
+
+  describe("#twosToInt", function() {
+    it("converts a two's complement value to a signed integer", function() {
+      expect(utils.twosToInt(0x9828)).to.be.eql(-26584);
+      expect(utils.twosToInt(0xCED8)).to.be.eql(-12584);
+    });
+  });
+
+  describe("#xor32bit", function() {
+    it("applies a bitwise XOR operation to 32bit values", function() {
+      var tmpVal = utils.intToHexArray(utils.xor32bit(0xFF00F0F0), 4);
+      expect(tmpVal).to.be.eql([0, 255, 15, 15]);
+      tmpVal = utils.intToHexArray(utils.xor32bit(0x00FF00FF), 4);
+      expect(tmpVal).to.be.eql([255, 0, 255, 0]);
+    });
+  });
 });

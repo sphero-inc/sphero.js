@@ -50,6 +50,13 @@ describe("Sphero", function() {
     it("adds custom device methods", function() {
       expect(sphero.color).to.be.a("function");
     });
+
+    context("when calling Sphero class as a function", function() {
+      it("throws because Sphero is a constructor", function() {
+        var spheroClass = Sphero;
+        expect(spheroClass).to.throw();
+      });
+    });
   });
 
   describe("connect", function() {
@@ -73,7 +80,7 @@ describe("Sphero", function() {
       stub(sphero.packet, "on");
       stub(sphero.packet, "parse");
       stub(sphero.packet, "parseResponseData");
-      // stub(sphero.packet, "parseAsyncData");
+      spy(sphero.packet, "parseAsyncData");
       stub(sphero.connection, "open");
       stub(sphero.connection, "onRead");
       stub(sphero.connection, "on");
@@ -215,8 +222,62 @@ describe("Sphero", function() {
       expect(sphero.emit).to.be.calledWith("ready");
     });
 
-    it("calls the callabck once", function() {
+    it("calls the callaback once", function() {
       expect(callback).to.be.calledOnce;
+    });
+
+    it("returns void when callback is not a function", function() {
+      callback.reset();
+      sphero.connect();
+      expect(sphero.connection.open).to.not.return;
+      expect(callback).to.not.be.called;
+    });
+
+    context("with invalid SOP2", function() {
+      beforeEach(function() {
+        sphero.packet.parseResponseData.reset();
+        sphero.packet.parseAsyncData.reset();
+        sphero._execCallback.reset();
+
+        packet.sop2 = 0xF0;
+        sphero.packet.parse.returns(packet);
+
+        sphero.connect(callback);
+      });
+
+      it("does not call _execCallback", function() {
+        expect(sphero._execCallback).to.not.be.called;
+      });
+
+      it("does not call @packet.parseResponseData", function() {
+        expect(sphero.packet.parseResponseData).to.not.be.called;
+      });
+
+      it("does not call @packet.parseAsyncData", function() {
+        expect(sphero.packet.parseAsyncData).to.not.be.called;
+      });
+    });
+
+    context("with invalid parsedPayload", function() {
+      beforeEach(function() {
+        sphero.packet.parse.returns(null);
+        sphero.packet.parseResponseData.reset();
+        sphero.packet.parseAsyncData.reset();
+        sphero.connect(callback);
+        sphero.packet.parse.returns(packet);
+      });
+
+      it("does not call _execCallback", function() {
+        expect(sphero._execCallback).to.be.calledOnce;
+      });
+
+      it("does not call @packet.parseResponseData", function() {
+        expect(sphero.packet.parseResponseData).to.not.be.called;
+      });
+
+      it("does not call @packet.parseAsyncData", function() {
+        expect(sphero.packet.parseAsyncData).to.not.be.called;
+      });
     });
   });
 
@@ -278,6 +339,48 @@ describe("Sphero", function() {
     });
   });
 
+  describe("#_queueCommand", function() {
+    var callback, packet;
+
+    beforeEach(function() {
+      callback = spy();
+      sphero.commandQueue = [];
+      packet = [0xFF, 0xFF, 0x00, 0x01, 0x00, 0x01, 0xFE];
+      sphero._queueCommand(packet, callback);
+    });
+
+    it("Adds a command and callback to the @commandQueue", function() {
+      expect(sphero.commandQueue.length).to.be.eql(1);
+      expect(sphero.commandQueue)
+        .to.be.eql([
+          { packet: packet, cb: callback}
+        ]);
+    });
+
+    context("@commandQueue is full del next command in the queue", function() {
+      var packet2, packet3;
+
+      beforeEach(function() {
+        packet2 = [0xFF, 0xFF, 0x00, 0x04, 0x00, 0x01, 0xFE];
+        packet2 = [0xFF, 0xFF, 0x00, 0x08, 0x00, 0x01, 0xFE];
+
+        for (var i = 1; i < 256; i++) {
+          sphero._queueCommand(packet2, callback);
+        }
+
+        sphero._queueCommand(packet3, callback);
+      });
+
+      it("discards next cmd and ads new cmd at the end", function() {
+        expect(sphero.commandQueue.length).to.be.eql(256);
+        expect(sphero.commandQueue[0])
+          .to.be.eql({ packet: packet2, cb: callback});
+        expect(sphero.commandQueue[255])
+          .to.be.eql({ packet: packet3, cb: callback});
+      });
+    });
+  });
+
   describe("#_incSeq", function() {
     var seq;
 
@@ -319,12 +422,27 @@ describe("Sphero", function() {
       fakeTimers = sinon.useFakeTimers();
 
       callback = spy();
+      stub(sphero, "_execCommand");
 
       sphero._queueCallback(cmdPacket, callback);
     });
 
     afterEach(function() {
+      sphero._execCommand.restore();
       fakeTimers.restore();
+    });
+
+    it("triggers the callback with the packet", function() {
+      var packet = {
+        sop1: 0xFF,
+        sop2: 0xFF,
+        mrsp: 0x00,
+        seq: 0x00,
+        dlen: 0x01,
+        checksum: 0xFE
+      };
+      sphero._execCallback(4, packet);
+      expect(callback).to.be.calledWith(null, packet);
     });
 
     it("adds the callback to the @callbackQueue queue", function() {
@@ -341,6 +459,20 @@ describe("Sphero", function() {
       fakeTimers.tick(500);
       expect(callback).to.be.calledWith(error, null);
     });
+
+    it("calls #_execCommand once", function() {
+      fakeTimers.tick(500);
+      expect(sphero._execCommand).to.be.calledOnce;
+    });
+
+    it("triggers #_execCommand if callback is null", function() {
+      fakeTimers.tick(500);
+      sphero._queueCallback(cmdPacket);
+      fakeTimers.tick(500);
+      expect(callback).to.be.calledOnce;
+      expect(sphero._execCommand).to.be.calledTwice;
+    });
+
   });
 
   describe("#_execCallback", function() {
@@ -385,6 +517,25 @@ describe("Sphero", function() {
         expect(sphero.callbackQueue[0x04]).to.be.null;
         sphero._execCallback(0x04, packet);
       });
+    });
+  });
+
+  describe("#responseCmd", function() {
+    beforeEach(function() {
+      sphero.callbackQueue[1] = {
+        did: 0x00,
+        cid: 0x01,
+        callback: spy(),
+        timeoutId: 1
+      };
+    });
+
+    it("returns did and cid stored in seq pos of callbackQueue", function() {
+      expect(sphero._responseCmd(1)).to.be.eql({ did: 0x00, cid: 0x01 });
+    });
+
+    it("returns null if the callbackQueue position is not found", function() {
+      expect(sphero._responseCmd(100)).to.be.null;
     });
   });
 });

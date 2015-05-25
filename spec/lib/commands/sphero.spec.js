@@ -1,6 +1,6 @@
 "use strict";
 
-var commands = lib("commands/bootloader");
+var commands = lib("commands/sphero");
 
 describe("Sphero Commands", function() {
   it("is an object", function() {
