@@ -364,9 +364,8 @@ describe("Packet", function() {
     });
 
     it("returns payload if cmd is not valid", function() {
-      spy(packet, "parseResponseData");
-      packet.parseResponseData({}, payload);
-      expect(packet.parseResponseData).to.returned(payload);
+      var res = packet.parseResponseData({}, payload);
+      expect(res).to.be.eql(payload);
     });
 
     it("calls #_parseData with params", function() {
@@ -495,25 +494,26 @@ describe("Packet", function() {
   });
 
   describe("#CheckdsMasks", function() {
+    beforeEach(function() {
+      spy(packet, "_checkDSMasks");
+    });
+
     afterEach(function() {
       packet._checkDSMasks.restore();
     });
 
     it("returns null when idCode !== 0x03", function() {
-      spy(packet, "_checkDSMasks");
       packet._checkDSMasks({}, { idCode: 0x07 });
       expect(packet._checkDSMasks).to.have.returned(null);
     });
 
     it("returns ds obj when ds is valid and idCode == 0x03", function() {
-      spy(packet, "_checkDSMasks");
       var ds = { mask1: 0xFF00, mask2: 0x00FF };
       packet._checkDSMasks(ds, { idCode: 0x03 });
       expect(packet._checkDSMasks).to.have.returned(ds);
     });
 
     it("returns -1 when ds is invalid and idCode == 0x03", function() {
-      spy(packet, "_checkDSMasks");
       var ds = { mask1: 0xFF00 };
       packet._checkDSMasks(ds, { idCode: 0x03 });
       expect(packet._checkDSMasks).to.have.returned(-1);
@@ -521,26 +521,30 @@ describe("Packet", function() {
   });
 
   describe("#_incParserIndex", function() {
-    it("returns i++ with dsFlag < 0", function() {
+    beforeEach(function() {
       spy(packet, "_incParserIndex");
+    });
+
+    afterEach(function() {
+      packet._incParserIndex.restore();
+    });
+
+    it("returns i++ with dsFlag < 0", function() {
       packet._incParserIndex(0, [], [], -1, 0);
       expect(packet._incParserIndex).to.have.returned(1);
     });
 
     it("returns i++ with i < fields.length", function() {
-      spy(packet, "_incParserIndex");
       packet._incParserIndex(0, [1, 2, 3], [4, 5, 6]);
       expect(packet._incParserIndex).to.have.returned(1);
     });
 
     it("returns i++ with dsIndex = data.length", function() {
-      spy(packet, "_incParserIndex");
       packet._incParserIndex(0, [1, 2, 3], [4, 5, 6, 7], 0, 4);
       expect(packet._incParserIndex).to.have.returned(1);
     });
 
     it("returns i = 0 when all conditions met", function() {
-      spy(packet, "_incParserIndex");
       packet._incParserIndex(3, [1, 2, 3, 4], [4, 5, 6, 7], 0, 2);
       expect(packet._incParserIndex).to.have.returned(0);
     });
@@ -597,18 +601,20 @@ describe("Packet", function() {
   });
 
   describe("#checkDSBit", function() {
+    beforeEach(function() {
+      spy(packet, "_checkDSBit");
+    });
+
     afterEach(function() {
       packet._checkDSBit.restore();
     });
 
     it("returns -1 when DS is invalid", function() {
-      spy(packet, "_checkDSBit");
       packet._checkDSBit(null);
       expect(packet._checkDSBit).to.have.returned(-1);
     });
 
     it("returns 1 when DS valid and field in mask1|2", function() {
-      spy(packet, "_checkDSBit");
       packet._checkDSBit(
         { mask1: 0xFFFF },
         { bitmask: 0x1000, maskField: "mask1"
@@ -617,7 +623,6 @@ describe("Packet", function() {
     });
 
     it("returns 0 when DS valid and field not in mask1|2", function() {
-      spy(packet, "_checkDSBit");
       packet._checkDSBit(
         { mask1: 0x0FFF },
         { bitmask: 0x1000, maskField: "mask1"
@@ -756,10 +761,12 @@ describe("Packet", function() {
 
       stub(utils, "twosToInt");
       utils.twosToInt.returns(255);
+      spy(packet, "_parseBitmaskField");
     });
 
     afterEach(function() {
       utils.twosToInt.restore();
+      packet._parseBitmaskField.restore();
     });
 
     it(" if val > field.range.top calls utils#twosToInt", function() {
@@ -769,7 +776,6 @@ describe("Packet", function() {
     });
 
     it("adds to the array if field already exist", function() {
-      spy(packet, "_parseBitmaskField");
       packet._parseBitmaskField(0xFE, field, { gyro: field });
       field.value.push(255);
       expect(packet._parseBitmaskField)

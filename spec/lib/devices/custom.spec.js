@@ -26,6 +26,14 @@ describe("Custom Device Functions", function() {
     });
 
     context("with a hex string", function() {
+      beforeEach(function() {
+        stub(console, "error");
+      });
+
+      afterEach(function() {
+        console.error.restore();
+      });
+
       it("converts to an RGB object", function() {
         device.color("#FF0000");
         var color = { red: 255, blue: 0, green: 0 };
@@ -39,7 +47,6 @@ describe("Custom Device Functions", function() {
       });
 
       it("prints an error with invalid color", function() {
-        stub(console, "error");
         device.color("mycolor");
         expect(console.error)
           .to.be.calledWith("invalid color provided", "mycolor");
