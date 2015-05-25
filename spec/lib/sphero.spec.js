@@ -222,7 +222,7 @@ describe("Sphero", function() {
       expect(sphero.emit).to.be.calledWith("ready");
     });
 
-    it("calls the callaback once", function() {
+    it("calls the callback once", function() {
       expect(callback).to.be.calledOnce;
     });
 
