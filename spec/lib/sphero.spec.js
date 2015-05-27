@@ -44,7 +44,7 @@ describe("Sphero", function() {
 
     it("adds sphero device methods", function() {
       expect(sphero.setHeading).to.be.a("function");
-      expect(sphero.setRGBLed).to.be.a("function");
+      expect(sphero.setRgbLed).to.be.a("function");
     });
 
     it("adds custom device methods", function() {
