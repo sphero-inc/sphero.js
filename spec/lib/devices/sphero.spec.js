@@ -179,8 +179,8 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x21, [0xFF], callback);
     });
 
-    it("#getRGBLed calls #command with params", function() {
-      sphero.getRGBLed(callback);
+    it("#getRgbLed calls #command with params", function() {
+      sphero.getRgbLed(callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
         .to.be.calledWith(0x02, 0x22, null, callback);
