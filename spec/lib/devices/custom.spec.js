@@ -258,7 +258,7 @@ describe("Custom Device Functions", function() {
       expect(device.streamData).to.be.calledWith(opts);
     });
 
-    it("#streamIMUAngles calls #streamData with", function() {
+    it("#streamImuAngles calls #streamData with", function() {
       var opts = {
         event: "imuAngles",
         mask1: 0x00070000,
@@ -267,7 +267,7 @@ describe("Custom Device Functions", function() {
         remove: false
       };
 
-      device.streamIMUAngles(2, false);
+      device.streamImuAngles(2, false);
 
       expect(device.streamData).to.be.calledOnce;
       expect(device.streamData).to.be.calledWith(opts);
