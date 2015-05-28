@@ -14,7 +14,7 @@ describe("Custom Device Functions", function() {
     var rgb;
 
     beforeEach(function() {
-      rgb = device.setRGBLed = spy();
+      rgb = device.setRgbLed = spy();
     });
 
     it("proxies callbacks", function() {
@@ -88,7 +88,7 @@ describe("Custom Device Functions", function() {
     var rgb, color;
 
     beforeEach(function() {
-      rgb = device.setRGBLed = spy();
+      rgb = device.setRgbLed = spy();
       color = { red: "red", green: "green", blue: "blue" };
       stub(utils, "randomColor").returns(color);
     });
@@ -106,9 +106,9 @@ describe("Custom Device Functions", function() {
 
   describe("#getColor", function() {
     it("calls #getRGBLed with", function() {
-      device.getRGBLed = stub();
+      device.getRgbLed = stub();
       device.getColor();
-      expect(device.getRGBLed).to.be.calledOnce;
+      expect(device.getRgbLed).to.be.calledOnce;
     });
   });
 
