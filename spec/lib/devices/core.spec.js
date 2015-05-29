@@ -29,8 +29,8 @@ describe("Core", function() {
       expect(core.command).to.be.calledWith(0x00, 0x02, null, callback);
     });
 
-    it("#controlUARTTx calls #command with params", function() {
-      core.controlUARTTx(callback);
+    it("#controlUartTx calls #command with params", function() {
+      core.controlUartTx(callback);
       expect(core.command).to.be.calledOnce;
       expect(core.command).to.be.calledWith(0x00, 0x03, null, callback);
     });

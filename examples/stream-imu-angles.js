@@ -4,7 +4,7 @@ var sphero = require("../");
 var orb = sphero("/dev/rfcomm0");
 
 orb.connect(function() {
-  orb.streamIMUAngles();
+  orb.streamImuAngles();
 
   orb.on("imuAngles", function(data) {
     console.log("::STREAMING IMU ANGLES::");
