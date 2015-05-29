@@ -152,7 +152,7 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x15, null, callback);
     });
 
-    it("#setRGBLed calls #command with params", function() {
+    it("#setRgbLed calls #command with params", function() {
       var opts = {
         red: 0xFF,
         green: 0xFE,
@@ -166,7 +166,7 @@ describe("Sphero", function() {
         0xFD,
         0x01,
       ];
-      sphero.setRGBLed(opts, callback);
+      sphero.setRgbLed(opts, callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
         .to.be.calledWith(0x02, 0x20, byteArray, callback);
@@ -179,8 +179,8 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x21, [0xFF], callback);
     });
 
-    it("#getRGBLed calls #command with params", function() {
-      sphero.getRGBLed(callback);
+    it("#getRgbLed calls #command with params", function() {
+      sphero.getRgbLed(callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
         .to.be.calledWith(0x02, 0x22, null, callback);
@@ -269,8 +269,8 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x40, [0xB4], callback);
     });
 
-    it("#setSSBModBlock calls #command with params", function() {
-      sphero.setSSBModBlock(0xAABBCCDD, [0x01, 0x02, 0x03], callback);
+    it("#setSsbModBlock calls #command with params", function() {
+      sphero.setSsbModBlock(0xAABBCCDD, [0x01, 0x02, 0x03], callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command)
         .to.be.calledWith(
@@ -301,14 +301,14 @@ describe("Sphero", function() {
       expect(sphero.command).to.be.calledWith(0x02, 0x44, null, callback);
     });
 
-    it("#getSSB calls #command with params", function() {
-      sphero.getSSB(callback);
+    it("#getSsb calls #command with params", function() {
+      sphero.getSsb(callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command).to.be.calledWith(0x02, 0x46, null, callback);
     });
 
-    it("#setSSB calls #command with params", function() {
-      sphero.setSSB(0xAABBCCDD, [0x01, 0x02, 0x03], callback);
+    it("#setSsb calls #command with params", function() {
+      sphero.setSsb(0xAABBCCDD, [0x01, 0x02, 0x03], callback);
 
       expect(sphero.command).to.be.calledOnce;
 
@@ -379,8 +379,8 @@ describe("Sphero", function() {
       expect(sphero.command).to.be.calledWith(0x02, 0x4E, null, callback);
     });
 
-    it("#enableSSBAsyncMsg calls #command with params", function() {
-      sphero.enableSSBAsyncMsg(0x01, callback);
+    it("#enableSsbAsyncMsg calls #command with params", function() {
+      sphero.enableSsbAsyncMsg(0x01, callback);
       expect(sphero.command).to.be.calledOnce;
       expect(sphero.command).to.be.calledWith(0x02, 0x4F, [0x01], callback);
     });
