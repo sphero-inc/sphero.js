@@ -11,8 +11,10 @@ var Sphero = require("./lib/sphero");
  * communication
  * @param {Number} [opts.sop2=0xFD] SOP2 value to be passed to commands
  * @param {Number} [opts.timeout=500] delay before a command is considered dead
- * @example var orb = sphero("/dev/rfcomm0");
- * @example var orb = sphero("/dev/tty.Sphero-OGB-AMP-SPP", { timeout: 300 });
+ * @example var orb = sphero("/dev/rfcomm0"); // linux
+ * @example var orb = sphero("COM4"); // windows
+ * @example
+ * var orb = sphero("/dev/tty.Sphero-OGB-AMP-SPP", { timeout: 300 }); // OS X
  * @returns {Sphero} a new instance of Sphero
  */
 module.exports = function sphero(address, opts) {
