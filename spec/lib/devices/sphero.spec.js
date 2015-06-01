@@ -152,6 +152,25 @@ describe("Sphero", function() {
         .to.be.calledWith(0x02, 0x15, null, callback);
     });
 
+    it("#setRgbLed defaults flag if not pressent", function() {
+      var opts = {
+        red: 0xFF,
+        green: 0xFE,
+        blue: 0xFD,
+      };
+
+      var byteArray = [
+        0xFF,
+        0xFE,
+        0xFD,
+        0x01,
+      ];
+      sphero.setRgbLed(opts, callback);
+      expect(sphero.command).to.be.calledOnce;
+      expect(sphero.command)
+        .to.be.calledWith(0x02, 0x20, byteArray, callback);
+    });
+
     it("#setRgbLed calls #command with params", function() {
       var opts = {
         red: 0xFF,

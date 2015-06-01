@@ -333,4 +333,41 @@ describe("Custom Device Functions", function() {
       expect(device.streamData).to.be.calledWith(opts);
     });
   });
+
+  describe("#stopOnDisconnect", function() {
+    var callback;
+
+    beforeEach(function() {
+      callback = spy();
+      device.setTempOptionFlags = stub();
+    });
+
+    afterEach(function() {
+    });
+
+    it("calls #setTempOptionFlags with", function() {
+      device.stopOnDisconnect();
+      expect(device.setTempOptionFlags).to.be.calledWith(0x01);
+    });
+
+    it("calls #setTempOptionFlags with callback when passed", function() {
+      device.stopOnDisconnect(callback);
+      expect(device.setTempOptionFlags).to.be.calledWith(0x01, callback);
+    });
+
+    it("removes disconnect flag when passed remove flag", function() {
+      device.stopOnDisconnect(true, callback);
+      expect(device.setTempOptionFlags).to.be.calledWith(0x00, callback);
+    });
+
+    it("removes disconnect flag and passes callback", function() {
+      device.stopOnDisconnect(true, callback);
+      expect(device.setTempOptionFlags).to.be.calledWith(0x00, callback);
+    });
+
+    it("passes flag and callback", function() {
+      device.stopOnDisconnect(false, callback);
+      expect(device.setTempOptionFlags).to.be.calledWith(0x01, callback);
+    });
+  });
 });
