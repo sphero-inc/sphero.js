@@ -1,52 +1,52 @@
 "use strict";
 
+var Mocha = require("mocha"),
+    uglify = require("uglify-js"),
+    ESLint = require("eslint").CLIEngine,
+    browserify = require("browserify");
+
 module.exports = function(grunt) {
-  grunt.initConfig({
-    eslint: { target: ["index.js", "Gruntfile.js", "lib", "spec", "examples"] },
+  grunt.registerTask("default", ["lint", "test"]);
 
-    simplemocha: {
-      options: { reporter: "dot" },
-      all: { src: ["spec/helper.js", "spec/lib/**/*.js"] }
-    },
+  grunt.registerTask("lint", "Lints code with ESLint", function() {
+    var lint = new ESLint(),
+        files = ["index.js", "Gruntfile.js", "lib", "spec", "examples"],
+        formatter = lint.getFormatter();
 
-    browserify: {
-      build: {
-        src: "index.js",
-        dest: "dist/sphero.js",
-      },
+    var report = lint.executeOnFiles(files),
+        results = report.results;
 
-      options: {
-        browserifyOptions: {
-          standalone: "sphero"
-        }
-      }
-    },
+    grunt.log.write(formatter(results));
 
-    uglify: {
-      options: {
-        banner: "/*! Sphero.js (c) 2015 Orbotix. MIT License */\n"
-      },
-
-      build: {
-        src: "dist/sphero.js",
-        dest: "dist/sphero.min.js"
-      }
-    },
+    return report.errorCount === 0;
   });
 
-  grunt.loadNpmTasks("grunt-eslint");
-  grunt.loadNpmTasks("grunt-simple-mocha");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
-  grunt.loadNpmTasks("grunt-browserify");
+  grunt.registerTask("test", "Runs specs with Mocha", function() {
+    var mocha = new Mocha({ reporter: "dot" }),
+        files = grunt.file.expand("spec/helper.js", "spec/lib/**/*.js"),
+        done = this.async();
 
-  grunt.registerTask("default", ["eslint", "simplemocha"]);
-  grunt.registerTask("lint", ["eslint"]);
-  grunt.registerTask("test", ["simplemocha"]);
+    files.forEach(mocha.addFile.bind(mocha));
 
-  grunt.registerTask("build-cleanup", function() {
-    grunt.log.writeln("Deleting dist/sphero.js");
-    grunt.file.delete("dist/sphero.js");
+    mocha.run(function(errs) {
+      done(errs === 0);
+    });
   });
 
-  grunt.registerTask("build", ["browserify", "uglify", "build-cleanup"]);
+  grunt.registerTask("dist", "Builds UMD distributable", function() {
+    var b = browserify("index.js", { standalone: "sphero" }),
+        banner = "/*! Sphero.js (c) 2015 Orbotix. MIT License */\n",
+        done = this.async();
+
+    b.bundle(function(err, buffer) {
+      if (err) {
+        console.error(err);
+        done(false);
+      }
+
+      var result = uglify.minify(buffer.toString(), { fromString: true });
+      grunt.file.write("dist/sphero.min.js", banner + result.code);
+      done(true);
+    });
+  });
 };
