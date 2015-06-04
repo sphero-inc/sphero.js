@@ -1,0 +1,6 @@
+/coverage
+npm-debug.log
+bower.json
+Gruntfile.js
+dist
+spec
