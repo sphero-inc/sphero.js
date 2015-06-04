@@ -31,10 +31,6 @@ describe("Serialport Adaptor", function() {
     it("sets @serialport", function() {
       expect(adaptor.serialport).to.be.null;
     });
-
-    it("sets @debug", function() {
-      expect(adaptor.debug).not.to.be.null;
-    });
   });
 
   describe("#open", function() {

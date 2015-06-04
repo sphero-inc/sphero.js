@@ -28,7 +28,6 @@
 
   "dependencies": {
     "serialport": "1.7.1",
-    "browser-serialport": "2.0.2",
-    "debug": "2.2.0"
+    "browser-serialport": "2.0.2"
   }
 }
