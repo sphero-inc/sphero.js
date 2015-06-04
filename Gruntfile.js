@@ -38,6 +38,10 @@ module.exports = function(grunt) {
         banner = "/*! Sphero.js (c) 2015 Orbotix. MIT License */\n",
         done = this.async();
 
+    // don't include node-serialport, since the assumption is that this will be
+    // running in the browser
+    b.ignore("serialport");
+
     b.bundle(function(err, buffer) {
       if (err) {
         console.error(err);
