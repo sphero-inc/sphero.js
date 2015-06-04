@@ -1,0 +1,25 @@
+{
+  "name": "sphero",
+  "main": "index.js",
+  "version": "0.2.0",
+  "homepage": "https://github.com/orbotix/sphero.js",
+  "authors": [
+    "Sphero <r@orbotix.com>"
+  ],
+  "description": "The Orbotix JavaScript SDK to control Sphero robots.",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "Sphero",
+    "robot"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "spec",
+    "examples"
+  ]
+}
