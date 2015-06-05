@@ -207,6 +207,10 @@ describe("Sphero", function() {
     });
 
     it("adds listener on @connection close", function() {
+      expect(sphero.connection.on).to.be.calledWith("open");
+    });
+
+    it("adds listener on @connection close", function() {
       expect(sphero.connection.on).to.be.calledWith("close");
     });
 
