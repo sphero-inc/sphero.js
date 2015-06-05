@@ -18,7 +18,10 @@
     "robots",
     "robotics",
     "hardware",
-    "sphero"
+    "sphero",
+    "spherojs",
+    "sphero-js",
+    "orbotix"
   ],
 
   "devDependencies": {
