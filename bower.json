@@ -1,7 +1,7 @@
 {
   "name": "sphero",
   "main": "dist/sphero.min.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The Orbotix JavaScript SDK to control Sphero robots.",
   "homepage": "https://github.com/orbotix/sphero.js",
   "authors": [
