@@ -13,6 +13,14 @@
 
   "license": "MIT",
 
+  "keywords": [
+    "robot",
+    "robots",
+    "robotics",
+    "hardware",
+    "sphero"
+  ],
+
   "devDependencies": {
     "sinon-chai": "2.7.0",
     "chai": "2.3.0",
