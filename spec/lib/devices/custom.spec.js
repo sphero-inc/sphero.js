@@ -342,9 +342,6 @@ describe("Custom Device Functions", function() {
       device.setTempOptionFlags = stub();
     });
 
-    afterEach(function() {
-    });
-
     it("calls #setTempOptionFlags with", function() {
       device.stopOnDisconnect();
       expect(device.setTempOptionFlags).to.be.calledWith(0x01);
@@ -368,6 +365,21 @@ describe("Custom Device Functions", function() {
     it("passes flag and callback", function() {
       device.stopOnDisconnect(false, callback);
       expect(device.setTempOptionFlags).to.be.calledWith(0x01, callback);
+    });
+  });
+
+  describe("#stop", function() {
+    var callback;
+
+    beforeEach(function() {
+      callback = spy();
+      device.roll = stub();
+      device.stop(callback);
+    });
+
+    it("calls #roll with params", function() {
+      expect(device.roll).to.be.calledOnce;
+      expect(device.roll).to.be.calledWith(0, 0, 0, callback);
     });
   });
 });
