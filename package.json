@@ -13,6 +13,17 @@
 
   "license": "MIT",
 
+  "keywords": [
+    "robot",
+    "robots",
+    "robotics",
+    "hardware",
+    "sphero",
+    "spherojs",
+    "sphero-js",
+    "orbotix"
+  ],
+
   "devDependencies": {
     "sinon-chai": "2.7.0",
     "chai": "2.3.0",
