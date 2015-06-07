@@ -10,7 +10,7 @@ orb.connect(function() {
     m: 1,
     mask1: 0x00000000,
     pcnt: 0,
-    mask2: 0x01800000
+    mask2: 0x0D800000
   };
 
   orb.setDataStreaming(opts);
