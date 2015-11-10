@@ -1,6 +1,7 @@
 {
   "name": "sphero",
   "version": "0.3.0",
+  "main": "index",
   "description": "Sphero.js",
   "homepage": "http://gosphero.com",
   "bugs": "https://github.com/orbotix/sphero.js/issues",
@@ -38,7 +39,7 @@
   },
 
   "dependencies": {
-    "serialport": "1.7.1",
+    "serialport": "2.0.0",
     "browser-serialport": "2.0.2"
   }
 }
