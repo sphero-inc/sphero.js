@@ -39,7 +39,7 @@
   },
 
   "dependencies": {
-    "serialport": "2.0.0",
+    "serialport": "^2.0.0",
     "browser-serialport": "2.0.2"
   }
 }
