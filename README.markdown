@@ -101,13 +101,13 @@ For more examples, check out the `examples` dir, or the JavaScript SDK documenta
 
 ## Development
 
-Use `npm install` to install development dependencies.
+Use `npm install` to install development dependencies. You will also need to install [Grunt](http://gruntjs.com) by running `npm install -g grunt-cli`
 
-You can run tests with `grunt test`.
+You can then run tests with `grunt test`.
 
-Using `grunt lint` to run ESLint against both `lib` and `spec/lib`.
+Use `grunt lint` to run ESLint against both `lib` and `spec/lib`.
 
-The `grunt` command will run both of the above tasks.
+The `grunt` command by itself will run both of the above tasks.
 
 ## License
 
