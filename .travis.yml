@@ -3,7 +3,12 @@ sudo: false
 node_js:
   - '0.10'
   - '0.12'
-  - 'iojs'
+  - '4.0'
+  - '4.1'
+  - '5.0'
+matrix:
+  allow_failures:
+    - node_js: '5.0'
 before_install:
   - "mkdir -p ~/.npm"
 before_script:
@@ -11,4 +16,4 @@ before_script:
 script:
   - grunt lint
   - istanbul cover ./node_modules/.bin/_mocha spec/helper.js spec/lib/*.js spec/lib/**/*.js --report lcovonly -- -R spec
-  - CODECLIMATE_REPO_TOKEN=88ec807c5d22e853e1a21b9289233f525e793f09e5e81322899ee519587d3689 codeclimate < coverage/lcov.info
+  - CODECLIMATE_REPO_TOKEN=88ec807c5d22e853e1a21b9289233f525e793f09e5e81322899ee519587d3689 codeclimate-test-reporter < coverage/lcov.info
