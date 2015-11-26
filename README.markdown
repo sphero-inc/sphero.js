@@ -101,7 +101,9 @@ For more examples, check out the `examples` dir, or the JavaScript SDK documenta
 
 ## Compatibility
 
-The Sphero.js module is currently compatible with Node.js versions 0.10.x thru 4.2.x.
+The Sphero.js module is currently compatible with Node.js versions 0.10.x thru 5.x
+
+In order to install it with Node.js 5.x+, you will need to have g++ v4.8 or higher.
 
 ## Development
 
