@@ -1,6 +1,6 @@
 # sphero.js
 
-The official Orbotix JavaScript SDK module to programatically control Sphero robots.
+The official Orbotix JavaScript SDK module to programmatically control Sphero robots.
 
 [![Build Status](https://travis-ci.org/orbotix/sphero.js.svg?branch=master)](https://travis-ci.org/orbotix/sphero.js) [![Code Climate](https://codeclimate.com/github/orbotix/sphero.js/badges/gpa.svg)](https://codeclimate.com/github/orbotix/sphero.js) [![Test Coverage](https://codeclimate.com/github/orbotix/sphero.js/badges/coverage.svg)](https://codeclimate.com/github/orbotix/sphero.js/coverage)
 
@@ -98,6 +98,10 @@ orb.connect(function() {
 ```
 
 For more examples, check out the `examples` dir, or the JavaScript SDK documentation on the Sphero developer portal.
+
+## Compatibility
+
+The Sphero.js module is currently compatible with Node.js versions 0.10.x thru 4.2.x.
 
 ## Development
 
