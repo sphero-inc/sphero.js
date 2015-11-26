@@ -1,7 +1,7 @@
 {
   "name": "sphero",
-  "version": "0.3.0",
-  "main": "index",
+  "version": "0.4.0",
+  "main": "index.js",
   "description": "Sphero.js",
   "homepage": "http://gosphero.com",
   "bugs": "https://github.com/orbotix/sphero.js/issues",
