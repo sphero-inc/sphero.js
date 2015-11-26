@@ -5,6 +5,7 @@ node_js:
   - '0.12'
   - '4.0'
   - '4.1'
+  - '4.2'  
   - '5.0'
 matrix:
   allow_failures:
