@@ -1,21 +1,14 @@
 language: node_js
 sudo: false
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-    - g++-4.8-multilib
-    - gcc-multilib
+node_js:
+  - '0.10'
+  - '0.12'
+  - '4.0'
+  - '4.1'
+  - '4.2'
+  - '5.0'
 env:
-  matrix:
-  - TRAVIS_NODE_VERSION="0.10"
-  - TRAVIS_NODE_VERSION="0.12"
-  - TRAVIS_NODE_VERSION="4.0"
-  - TRAVIS_NODE_VERSION="4.1"
-  - TRAVIS_NODE_VERSION="4.2"
-  - TRAVIS_NODE_VERSION="5"
+  - CXX=g++-4.8
 before_install:
   - "mkdir -p ~/.npm"
 before_script:
@@ -24,3 +17,10 @@ script:
   - grunt lint
   - istanbul cover ./node_modules/.bin/_mocha spec/helper.js spec/lib/*.js spec/lib/**/*.js --report lcovonly -- -R spec
   - CODECLIMATE_REPO_TOKEN=88ec807c5d22e853e1a21b9289233f525e793f09e5e81322899ee519587d3689 codeclimate-test-reporter < coverage/lcov.info
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - g++-4.8-multilib
