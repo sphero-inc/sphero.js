@@ -1,7 +1,7 @@
 "use strict";
 
 var sphero = require("../");
-var orb = sphero("/dev/rfcomm0");
+var orb = sphero(process.env.PORT);
 
 orb.connect(function() {
   console.log("::START CALIBRATION::");

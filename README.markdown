@@ -12,15 +12,15 @@ The official Orbotix JavaScript SDK module to programmatically control Sphero ro
 
 ### OS X
 
-To connect to your Sphero, you first need to pair it. To pair your device on OS X, open the Bluetooth settings here: System Preferences > Bluetooth. From this menu, locate your Sphero in the Devices list and click the **Pair** button to pair it with your computer.
+To connect to your Sphero, you first need to pair it. To pair your device on OS X, open the Bluetooth settings in **System Preferences** > **Bluetooth**. From this menu, locate your Sphero in the Devices list and click the **Pair** button to pair it with your computer.
 
-Once you've successfully paired your Sphero, open your terminal and navigate to your system's `/dev/` directory and locate the serial device connection for your newly paired Sphero; it should look something like this:
+Once you've successfully paired your Sphero, open your terminal, go to your `/dev` folder and locate the serial device connection (or use `ls -a /dev | grep tty.Sphero`) for your newly paired Sphero; it should look something like `tty.Sphero-RGB-AMP-SPP`. Note, your device will likely be different depending on its preset color code (the three colors your Sphero cycles through when you first turn it on). The previous example is for a Sphero with a Red, Green and Blue (RGB) color code.
+
+So, your Sphero port will be at
 
 ```
-tty.Sphero-RGB-AMP-SPP
+/dev/tty.Sphero-XXX-XXX-XXX
 ```
-
-Note, your device will likely be different depending on its preset color code (the three colors your Sphero cycles through when you first turn it on). The example above is for a Sphero with a Red, Green, and Blue (RGB) color code.
 
 ***
 
@@ -62,7 +62,7 @@ To initialize and connect to a Sphero:
 
 ```javascript
 var sphero = require("sphero"),
-    orb = sphero("/dev/rfcomm0");
+    orb = sphero("/dev/rfcomm0"); // change port accordingly
 
 orb.connect(function() {
   // Sphero's connected!
@@ -97,7 +97,10 @@ orb.connect(function() {
 });
 ```
 
-For more examples, check out the `examples` dir, or the JavaScript SDK documentation on the Sphero developer portal.
+For more examples, check out the `examples` dir, or the JavaScript SDK documentation on the Sphero developer portal. When running these examples, don't forget to pass the port as an ENV variable like this:
+```
+PORT=/your/port node example.js
+```
 
 ## Compatibility
 

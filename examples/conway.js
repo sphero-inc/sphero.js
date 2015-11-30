@@ -5,7 +5,7 @@
 var sphero = require("../");
 
 var spheros = {
-  Thelma : sphero("/dev/rfcomm0"),
+  Thelma : sphero(process.env.PORT),
   Louise : sphero("/dev/rfcomm1"),
   Grace  : sphero("/dev/rfcomm2"),
   Ada    : sphero("/dev/rfcomm3")
