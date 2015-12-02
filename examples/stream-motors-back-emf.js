@@ -4,7 +4,6 @@ var sphero = require("../");
 var orb = sphero(process.env.PORT);
 
 orb.connect(function() {
-  orb.streamVelocity();
   orb.streamMotorsBackEmf();
 
   orb.on("motorsBackEmf", function(data) {
