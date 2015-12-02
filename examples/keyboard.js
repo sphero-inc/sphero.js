@@ -8,7 +8,7 @@ var sphero = require("../");
 // make sure you install this first - `npm install keypress`
 var keypress = require("keypress");
 
-var orb = sphero("/dev/rfcomm0");
+var orb = sphero(process.env.PORT);
 
 orb.connect(listen);
 
