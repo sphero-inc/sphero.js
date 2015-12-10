@@ -34,6 +34,15 @@ You can connect and disconnect the Sphero from a serialport interface by right c
 /dev/rfcomm0
 ```
 
+You might need to add a udev rule in order to properly set permissions for your program to be able to access the Bluetooth interface. For example:
+
+```
+$ cat /etc/udev/rules.d/55-rfcomm.rules
+KERNEL=="rfcomm[0-9]*", NAME="%k", GROUP="dialout"
+```
+
+The udev rule above will allow any user who is a member of the `dialout` group to access any port that is added by connecting by running the `rfcomm` command. Note that running the `rfcomm` command itself to create the port, may require running under `sudo`.
+
 ***
 
 ### Windows
