@@ -677,6 +677,14 @@ describe("Packet", function() {
         expect(packet._parseField).to.have.returned(255);
       });
 
+      it("'signed' returns the signed value", function() {
+        field.type = "signed";
+        field.from = 0;
+        field.to = 1;
+        var tmpVal = packet._parseField(field, new Buffer([0xFF, 0xFE, 0x00, 0x01]));
+        expect(tmpVal).to.be.eql(-1);
+      });
+
       it("'number' returns a hex string when format == 'hex'", function() {
         field.format = "hex";
         packet._parseField(field, [255]);
@@ -684,7 +692,7 @@ describe("Packet", function() {
         field.format = undefined;
       });
 
-      it("'string' returns a string whit format == 'ascii'", function() {
+      it("'string' returns a string with format == 'ascii'", function() {
         field.type = "string";
         field.format = "ascii";
         packet._parseField(field, new Buffer([0x48, 0x6F, 0x6C, 0x61, 0x21]));
