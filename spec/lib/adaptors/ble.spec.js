@@ -24,8 +24,8 @@ describe("BLE Adaptor", function() {
   });
 
   describe("#constructor", function() {
-    it("sets @address", function() {
-      expect(adaptor.address).to.be.eql("cc360e85785e");
+    it("sets @peripheralId", function() {
+      expect(adaptor.peripheralId).to.be.eql("cc360e85785e");
     });
 
     // it("sets @serialport", function() {
