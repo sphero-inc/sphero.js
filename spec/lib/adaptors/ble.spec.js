@@ -2,16 +2,15 @@
 
 //var serialport = require("serialport");
 
-var EventEmitter = require("events").EventEmitter;
+//var EventEmitter = require("events").EventEmitter;
 
 var Adaptor = lib("adaptors/ble");
 
 describe("BLE Adaptor", function() {
-  var adaptor, port;
+  var adaptor;
 
   beforeEach(function() {
     adaptor = new Adaptor("cc360e85785e");
-    port = new EventEmitter();
     //stub(serialport, "SerialPort").returns(port);
   });
 
@@ -27,10 +26,6 @@ describe("BLE Adaptor", function() {
     it("sets @peripheralId", function() {
       expect(adaptor.peripheralId).to.be.eql("cc360e85785e");
     });
-
-    // it("sets @serialport", function() {
-    //   expect(adaptor.serialport).to.be.null;
-    // });
   });
 
   // describe("#open", function() {
@@ -102,7 +97,7 @@ describe("BLE Adaptor", function() {
   // });
 
   describe("i/o", function() {
-    var data, callback;
+    //var data, callback;
 
     beforeEach(function() {
       // port.write = stub();
