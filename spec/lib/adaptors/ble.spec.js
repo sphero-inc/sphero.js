@@ -23,8 +23,8 @@ describe("BLE Adaptor", function() {
   });
 
   describe("#constructor", function() {
-    it("sets @peripheralId", function() {
-      expect(adaptor.peripheralId).to.be.eql("cc360e85785e");
+    it("sets @uuid", function() {
+      expect(adaptor.uuid).to.be.eql("cc360e85785e");
     });
   });
 
