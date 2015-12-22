@@ -1,5 +1,4 @@
 language: node_js
-sudo: false
 node_js:
   - '0.10'
   - '0.12'
@@ -11,9 +10,12 @@ node_js:
 env:
   - CXX=g++-4.8
 before_install:
-  - apt-get update  
+  - sudo apt-get update
   - "mkdir -p ~/.npm"
-before_script:
+install:
+  - npm install -g node-gyp-install
+  - node-gyp-install
+  - npm install
   - npm install -g grunt-cli istanbul codeclimate-test-reporter
 script:
   - grunt lint
@@ -26,3 +28,4 @@ addons:
     packages:
     - g++-4.8
     - g++-4.8-multilib
+    - libbluetooth-dev
