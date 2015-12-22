@@ -11,6 +11,7 @@ node_js:
 env:
   - CXX=g++-4.8
 before_install:
+  - sudo apt-get update  
   - "mkdir -p ~/.npm"
 before_script:
   - npm install -g grunt-cli istanbul codeclimate-test-reporter
