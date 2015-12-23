@@ -15,6 +15,8 @@ before_install:
 install:
   - npm install -g node-gyp-install
   - node-gyp-install
+  - npm install serialport
+  - npm install noble
   - npm install
   - npm install -g grunt-cli istanbul codeclimate-test-reporter
 script:

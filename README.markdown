@@ -4,11 +4,42 @@ The official Orbotix JavaScript SDK module to programmatically control Sphero ro
 
 [![Build Status](https://travis-ci.org/orbotix/sphero.js.svg?branch=master)](https://travis-ci.org/orbotix/sphero.js) [![Code Climate](https://codeclimate.com/github/orbotix/sphero.js/badges/gpa.svg)](https://codeclimate.com/github/orbotix/sphero.js) [![Test Coverage](https://codeclimate.com/github/orbotix/sphero.js/badges/coverage.svg)](https://codeclimate.com/github/orbotix/sphero.js/coverage)
 
-## Installation
+## Installation for BB-8 & Ollie
 
-    $ npm install sphero
+The BB-8 and Ollie use a Bluetooth Low Energy (LE) interface, also known as "Bluetooth Smart" or "Bluetooth 4.0/4.1". You must have a hardware adapter that supports the Bluetooth 4.x+ standard to connect your computer to your BB-8 or Ollie.
 
-## Connecting to Sphero
+Run the following command:
+
+    $ npm install sphero noble
+
+To use Sphero.js with your BB-8 or Ollie, you must also install the Node.js noble module (https://github.com/sandeepmistry/noble) from [@sandeepmistry](https://github.com/sandeepmistry).
+
+## Installation for Sphero 1.0/2.0 & SPRK
+
+The Sphero 1.0/2.0 and the SPRK use a Bluetooth Classic interface, also known as "Bluetooth 2.0/3.0".
+
+Run the following command:
+
+    $ npm install sphero serialport
+
+To use Sphero.js with your Sphero or SPRK, you must also install the Node.js serialport module (https://github.com/voodootikigod/node-serialport) from [@voodootikigod](https://github.com/voodootikigod).
+
+## Connecting to BB-8/Ollie
+
+### OS X
+
+To connect to your BB-8 or Ollie, you first need to determine the MAC address.
+
+### Linux - Ubuntu
+
+To connect to your BB-8 or Ollie, you first need to determine the MAC address.
+
+### Windows
+
+To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+.
+
+
+## Connecting to Sphero/SPRK
 
 ### OS X
 
