@@ -2,8 +2,6 @@
 
 var ble = require("noble");
 
-var EventEmitter = require("events").EventEmitter;
-
 var Adaptor = lib("adaptors/ble");
 
 describe("BLE Adaptor", function() {
@@ -43,7 +41,6 @@ describe("BLE Adaptor", function() {
     });
 
     context("when the ble interface emits 'discover'", function() {
-      var emit;
       var desiredPeripheral = {
         id: "cc360e85785e",
         connect: spy()
@@ -52,10 +49,6 @@ describe("BLE Adaptor", function() {
         id: "ff360e85785e",
         connect: spy()
       };
-
-      beforeEach(function() {
-        emit = adaptor.emit = spy();
-      });
 
       context("if the peripheral was found", function() {
         beforeEach(function() {
