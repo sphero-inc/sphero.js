@@ -28,16 +28,30 @@ To use Sphero.js with your Sphero or SPRK, you must also install the Node.js ser
 
 ### OS X
 
-To connect to your BB-8 or Ollie, you first need to determine the MAC address.
+To connect to your BB-8 or Ollie, you first need to determine the MAC address. Once you have noble installed, you can use the `advertisement-discovery.js` program to determine the device address:
+
+```
+$ node ./node_modules/noble/examples/advertisement-discovery.js
+peripheral discovered (f3f26d557108 with address <f3:f2:6d:55:71:08, random>, connectable true, RSSI -37:
+        hello my local name is:
+                BB-7108
+        can I interest you in any of the following advertised services:
+                ["22bb746f2ba075542d6f726568705327"]
+        here is my manufacturer data:
+                "3330"
+        my TX power level is:
+                6
+```
 
 ### Linux - Ubuntu
 
-To connect to your BB-8 or Ollie, you first need to determine the MAC address.
+To connect to your BB-8 or Ollie, you first need to determine the MAC address. One way to do this, is to run the `hcitool` program:
+
+    $ sudo hcitool lescan
 
 ### Windows
 
 To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+.
-
 
 ## Connecting to Sphero/SPRK
 
