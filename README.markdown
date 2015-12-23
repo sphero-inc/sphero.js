@@ -4,6 +4,64 @@ The official Orbotix JavaScript SDK module to programmatically control Sphero ro
 
 [![Build Status](https://travis-ci.org/orbotix/sphero.js.svg?branch=master)](https://travis-ci.org/orbotix/sphero.js) [![Code Climate](https://codeclimate.com/github/orbotix/sphero.js/badges/gpa.svg)](https://codeclimate.com/github/orbotix/sphero.js) [![Test Coverage](https://codeclimate.com/github/orbotix/sphero.js/badges/coverage.svg)](https://codeclimate.com/github/orbotix/sphero.js/coverage)
 
+## Usage
+
+To initialize and connect to a BB-8 or an Ollie:
+
+```javascript
+var sphero = require("sphero"),
+    bb8 = sphero("F3:F2:6D:55:71:09"); // change BLE address accordingly
+
+bb8.connect(function() {
+  // you are connected!
+  // do some cool stuff here!
+});
+```
+
+To initialize and connect to a Sphero 1.0/2.0 or SPRK, just change the **port** to match your connection:
+
+```javascript
+var sphero = require("sphero"),
+    orb = sphero("/dev/rfcomm0"); // change port accordingly
+
+orb.connect(function() {
+  // Sphero's connected!
+  // do some cool stuff here!
+});
+```
+
+Once connected, you can give your Sphero commands:
+
+```javascript
+orb.connect(function() {
+  // roll Sphero forward
+  orb.roll(150, 0);
+
+  // turn Sphero green
+  orb.color("green");
+
+  // have Sphero tell you when it detect collisions
+  orb.detectCollisions();
+
+  // when Sphero detects a collision, turn red for a second, then back to green
+  orb.on("collision", function(data) {
+    console.log("collision detected");
+    console.log("  data:", data);
+
+    orb.color("red");
+
+    setTimeout(function() {
+      orb.color("green");
+    }, 1000);
+  });
+});
+```
+
+For more examples, check out the `examples` dir, or the JavaScript SDK documentation on the Sphero developer portal. When running these examples, don't forget to pass the port as an ENV variable like this:
+```
+PORT=/your/port node example.js
+```
+
 ## Installation for BB-8 & Ollie
 
 The BB-8 and Ollie use a Bluetooth Low Energy (LE) interface, also known as "Bluetooth Smart" or "Bluetooth 4.0/4.1". You must have a hardware adapter that supports the Bluetooth 4.x+ standard to connect your computer to your BB-8 or Ollie.
@@ -108,52 +166,6 @@ The second option is to identify the port number. Click the `start` button and t
 
 ```
 COM2, COM3, COM4
-```
-
-## Usage
-
-To initialize and connect to a Sphero:
-
-```javascript
-var sphero = require("sphero"),
-    orb = sphero("/dev/rfcomm0"); // change port accordingly
-
-orb.connect(function() {
-  // Sphero's connected!
-  // do some cool stuff here!
-});
-```
-
-Once connected, you can give Sphero commands:
-
-```javascript
-orb.connect(function() {
-  // roll Sphero forward
-  orb.roll(150, 0);
-
-  // turn Sphero green
-  orb.color("green");
-
-  // have Sphero tell you when it detect collisions
-  orb.detectCollisions();
-
-  // when Sphero detects a collision, turn red for a second, then back to green
-  orb.on("collision", function(data) {
-    console.log("collision detected");
-    console.log("  data:", data);
-
-    orb.color("red");
-
-    setTimeout(function() {
-      orb.color("green");
-    }, 1000);
-  });
-});
-```
-
-For more examples, check out the `examples` dir, or the JavaScript SDK documentation on the Sphero developer portal. When running these examples, don't forget to pass the port as an ENV variable like this:
-```
-PORT=/your/port node example.js
 ```
 
 ## Compatibility
