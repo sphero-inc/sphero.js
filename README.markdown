@@ -167,6 +167,22 @@ The second option is to identify the port number. Click the `start` button and t
 ```
 COM2, COM3, COM4
 ```
+## Error handling
+
+Under most circumstances, Sphero.js will attempt to gracefully recover from any bad or incomplete packets that might be received back from the connected wireless device. If you wish to handle these errors yourself, you must set the `emitPacketErrors` option to true, as shown by this example:
+
+```
+var sphero = require("sphero"),
+    orb = sphero("/dev/rfcomm0", {emitPacketErrors: true});
+
+orb.connect(function() {
+  // Sphero's connected!
+  // do some cool stuff here!
+  orb.on("error", function(err, data) {
+    // Do something with the err or just ignore.
+  });
+});
+```
 
 ## Compatibility
 
