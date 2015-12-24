@@ -1,9 +1,9 @@
 {
   "name": "sphero",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "main": "index.js",
   "description": "Sphero.js",
-  "homepage": "http://gosphero.com",
+  "homepage": "http://www.sphero.com/",
   "bugs": "https://github.com/orbotix/sphero.js/issues",
   "author": "Orbotix Inc.",
 
@@ -22,7 +22,11 @@
     "sphero",
     "spherojs",
     "sphero-js",
-    "orbotix"
+    "orbotix",
+    "ollie",
+    "bb8",
+    "bb-8",
+    "sprk"
   ],
 
   "devDependencies": {
