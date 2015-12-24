@@ -7,7 +7,7 @@ describe("Packet", function() {
   var packet;
 
   beforeEach(function() {
-    packet = new Packet();
+    packet = new Packet({emitPacketErrors: true});
   });
 
   describe("#constructor", function() {
@@ -156,6 +156,7 @@ describe("Packet", function() {
 
           stub(packet, "emit");
 
+          packet.emitPacketErrors = true;
           res = packet.parse(buffer);
         });
 

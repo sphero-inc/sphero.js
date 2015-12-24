@@ -308,7 +308,8 @@ describe("Sphero", function() {
         did: 0x00,
         cid: 0x01,
         seq: 0x01,
-        data: null
+        data: null,
+        emitPacketErrors: false
       };
 
       cmdByteArray = [0xFF, 0xFF, 0x00, 0x01, 0x01, 0xFE];
