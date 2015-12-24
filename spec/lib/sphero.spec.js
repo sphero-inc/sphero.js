@@ -25,8 +25,8 @@ describe("Sphero", function() {
       expect(sphero.connection).to.be.an.instanceOf(SerialPort);
     });
 
-    it("sets @sop2Bitfield to SOP2.answer by default", function() {
-      expect(sphero.sop2Bitfield).to.be.eql(0xFD);
+    it("sets @sop2Bitfield to SOP2.both by default", function() {
+      expect(sphero.sop2Bitfield).to.be.eql(0xFF);
     });
 
     it("sets @seqCounter to 0x00", function() {
