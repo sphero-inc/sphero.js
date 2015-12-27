@@ -1,4 +1,4 @@
-# sphero.js
+# Sphero.js
 
 The official Orbotix JavaScript SDK module to programmatically control Sphero robots.
 
@@ -89,36 +89,51 @@ To use Sphero.js with your Sphero or SPRK, you must also install the Node.js ser
 
 ### OS X
 
-To connect to your BB-8 or Ollie, you first need to determine the MAC address. Once you have noble installed, you can use the `advertisement-discovery.js` program to determine the device address:
+To connect to your BB-8 or Ollie, you first need to determine UUID. Once you have Noble installed, you can use the `advertisement-discovery.js` program to determine the device UUID:
+
+```
+$ node ./node_modules/noble/examples/advertisement-discovery.js
+peripheral discovered (944f561f8cf441f3b5405ed48f5c63cf with address <unknown, unknown>, connectable true, RSSI -73:
+    hello my local name is:
+        BB-131D
+    can I interest you in any of the following advertised services:
+        []
+    here is my manufacturer data:
+        "3330"
+    my TX power level is:
+        -18
+```
+
+In the above output, the device UUID is `944f561f8cf441f3b5405ed48f5c63cf`. Use this value to connect to your BB-8 or Ollie.
+
+### Linux - Ubuntu
+
+To connect to your BB-8 or Ollie, you first need to determine the MAC address. Once you have Noble installed, you can use the `advertisement-discovery.js` program to determine the device address:
 
 ```
 $ node ./node_modules/noble/examples/advertisement-discovery.js
 peripheral discovered (f3f26d557108 with address <f3:f2:6d:55:71:08, random>, connectable true, RSSI -37:
-        hello my local name is:
-                BB-7108
-        can I interest you in any of the following advertised services:
-                ["22bb746f2ba075542d6f726568705327"]
-        here is my manufacturer data:
-                "3330"
-        my TX power level is:
-                6
+    hello my local name is:
+            BB-7108
+    can I interest you in any of the following advertised services:
+            ["22bb746f2ba075542d6f726568705327"]
+    here is my manufacturer data:
+            "3330"
+    my TX power level is:
+            6
 ```
 
-### Linux - Ubuntu
-
-To connect to your BB-8 or Ollie, you first need to determine the MAC address. One way to do this, is to run the `hcitool` program:
-
-    $ sudo hcitool lescan
+In the above output, the device address is `f3f26d557108` (or alternately `f3:f2:6d:55:71:08`). Use this value to connect to your BB-8 or Ollie.
 
 ### Windows
 
-To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+.
+To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+. Instructions coming soon...
 
 ## Connecting to Sphero/SPRK
 
 ### OS X
 
-To connect to your Sphero, you first need to pair it. To pair your device on OS X, open the Bluetooth settings in **System Preferences** > **Bluetooth**. From this menu, locate your Sphero in the Devices list and click the **Pair** button to pair it with your computer.
+To connect to your Sphero 1.0/2.0 or SPRK, you first need to pair it. To pair your device on OS X, open the Bluetooth settings in **System Preferences** > **Bluetooth**. From this menu, locate your Sphero in the Devices list and click the **Pair** button to pair it with your computer.
 
 Once you've successfully paired your Sphero, open your terminal, go to your `/dev` folder and locate the serial device connection (or use `ls -a /dev | grep tty.Sphero`) for your newly paired Sphero; it should look something like `tty.Sphero-RGB-AMP-SPP`. Note, your device will likely be different depending on its preset color code (the three colors your Sphero cycles through when you first turn it on). The previous example is for a Sphero with a Red, Green and Blue (RGB) color code.
 
@@ -132,7 +147,7 @@ So, your Sphero port will be at
 
 ### Linux - Ubuntu
 
-To make things easy install `Blueman Bluetooth Manager`. In Ubuntu this is pretty easy, just open the **Ubuntu Software Center**, type the program name and install it from there. When the installation is complete, open the program and search for devices. Make sure the Sphero is flashing its color code. Once the Sphero appears in the list of devices, select it, click on setup and follow the instructions.
+To connect to your Sphero 1.0/2.0 or SPRK, you first need to pair it. To make things easy install `Blueman Bluetooth Manager`. In Ubuntu this is pretty easy, just open the **Ubuntu Software Center**, type the program name and install it from there. When the installation is complete, open the program and search for devices. Make sure the Sphero is flashing its color code. Once the Sphero appears in the list of devices, select it, click on setup and follow the instructions.
 
 You can connect and disconnect the Sphero from a serialport interface by right clicking on it inside the Blueman list of devices and selecting `RN-SPP` or `disconnect`, respectively (after it has been setup and added permanently to the list). Make sure to notice the serialport address Blueman displays after the Sphero connects, as this will be the one used in your code. The serialport address displayed for the Sphero should look something like this:
 
@@ -153,7 +168,7 @@ The udev rule above will allow any user who is a member of the `dialout` group t
 
 ### Windows
 
-Locate the Bluetooth icon in the taskbar (or inside the system task tray button) and follow the necessary steps to pair with your Sphero.
+To connect to your Sphero 1.0/2.0 or SPRK, you first need to pair it. Locate the Bluetooth icon in the taskbar (or inside the system task tray button) and follow the necessary steps to pair with your Sphero.
 
 Once you've successfully paired your Sphero, there are two options available to you to check and see which serialport corresponds to the Sphero you just connected. The first option is to right click on the bluetooth icon in the task bar (same you use to pair), click on `Open Settings`, when the settings window appears, navigate to the `COM Ports` tab where you should see a list of ports which should list your Sphero. If your Sphero is listed in more than one port, take note of the one that has `RN-SPP` in the name, and use that one to connect. The list should look something similar to:
 
