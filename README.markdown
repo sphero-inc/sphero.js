@@ -210,7 +210,7 @@ In order to install it with Node.js 5.x+, you will need to have g++ v4.8 or high
 
 ## Development
 
-Use `npm install` to install development dependencies. You will also need to install [Grunt](http://gruntjs.com) by running `npm install -g grunt-cli`
+Use `npm install` to install development dependencies, as well as both `noble` and `serialport` (`npm install noble serialport`). You will also need to install [Grunt](http://gruntjs.com) by running `npm install -g grunt-cli`
 
 You can then run tests with `grunt test`.
 
