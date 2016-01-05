@@ -89,7 +89,7 @@ To use Sphero.js with your Sphero or SPRK, you must also install the Node.js ser
 
 ### OS X
 
-To connect to your BB-8 or Ollie, you first need to determine UUID. Once you have Noble installed, you can use the `advertisement-discovery.js` program to determine the device UUID:
+To connect to your BB-8 or Ollie, you first need to determine its UUID. Once you have Noble installed, you can use the `advertisement-discovery.js` program to determine the device's UUID:
 
 ```
 $ node ./node_modules/noble/examples/advertisement-discovery.js
