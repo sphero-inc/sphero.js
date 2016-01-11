@@ -18,5 +18,5 @@ orb.connect(function() {
     }, 1000);
   });
 
-  orb.roll(155, 0);
+  orb.roll(155, 180);
 });
