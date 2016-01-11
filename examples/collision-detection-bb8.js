@@ -4,7 +4,7 @@ var sphero = require("../");
 var orb = sphero(process.env.PORT);
 
 orb.connect(function() {
-  orb.detectCollisions();
+  orb.detectCollisions({device: "bb8"});
   orb.color("green");
 
   orb.on("collision", function(data) {
