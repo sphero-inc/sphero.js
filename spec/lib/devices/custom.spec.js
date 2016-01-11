@@ -117,11 +117,10 @@ describe("Custom Device Functions", function() {
       device.configureCollisions = spy();
       device.on = stub();
       device.emit = stub();
-
-      device.detectCollisions();
     });
 
-    it("configures collision detection for Sphero", function() {
+    it("configures collision detection for Sphero (default)", function() {
+      device.detectCollisions();
       expect(device.configureCollisions).to.be.calledWith({
         meth: 0x01,
         xt: 0x40,
@@ -129,6 +128,18 @@ describe("Custom Device Functions", function() {
         xs: 0x50,
         ys: 0x50,
         dead: 0x50
+      });
+    });
+
+    it("configures collision detection for BB8", function() {
+      device.detectCollisions({device: "bb8"});
+      expect(device.configureCollisions).to.be.calledWith({
+        meth: 0x01,
+        xt: 0x20,
+        yt: 0x20,
+        xs: 0x20,
+        ys: 0x20,
+        dead: 0x01
       });
     });
   });
