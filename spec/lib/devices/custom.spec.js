@@ -148,7 +148,7 @@ describe("Custom Device Functions", function() {
     beforeEach(function() {
       device.setStabilization = spy();
       device.setBackLed = stub();
-      device.getColor = stub().yields({color: 0xff00ff});
+      device.getColor = stub().yields(null, {color: 0xff00ff});
 
       device.startCalibration();
     });
