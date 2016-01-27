@@ -148,6 +148,7 @@ describe("Custom Device Functions", function() {
     beforeEach(function() {
       device.setStabilization = spy();
       device.setBackLed = stub();
+      device.getColor = stub().yields({color: 0xff00ff});
 
       device.startCalibration();
     });
@@ -159,6 +160,10 @@ describe("Custom Device Functions", function() {
     it("turns on the back LED", function() {
       expect(device.setBackLed).to.be.calledWith(127);
     });
+
+    it("turns off the main LED", function() {
+      expect(device.setRgbLed).to.be.calledWith(0);
+    });
   });
 
   describe("#finishCalibration", function() {
@@ -166,6 +171,7 @@ describe("Custom Device Functions", function() {
       device.setStabilization = spy();
       device.setHeading = spy();
       device.setBackLed = stub();
+      device.setRgbLed = stub();
 
       device.finishCalibration();
     });
@@ -180,6 +186,10 @@ describe("Custom Device Functions", function() {
 
     it("turns off the back LED", function() {
       expect(device.setBackLed).to.be.calledWith(0);
+    });
+
+    it("turns on the main LED again using original color", function() {
+      expect(device.setRgbLed).to.be.calledWith(0xff00ff);
     });
   });
 
