@@ -82,6 +82,26 @@ describe("Custom Device Functions", function() {
         expect(rgb).to.be.calledWithMatch({ red: 250, green: 10, blue: 125 });
       });
     });
+
+    context("with luminance", function() {
+      it("converts to an RGB object at +20%", function() {
+        device.color(0x6699cc, .2);
+        var color = { red: 0x7a, green: 0xb8, blue: 0xf5 };
+        expect(rgb).to.be.calledWith(color);
+      });
+
+      it("converts to an RGB object at -50%", function() {
+        device.color(0x6699cc, -0.5);
+        var color = { red: 0x33, green: 0x4d, blue: 0x66 };
+        expect(rgb).to.be.calledWith(color);
+      });
+
+      it("converts to an RGB object at normal %", function() {
+        device.color(0x6699cc, 0);
+        var color = { red: 0x66, green: 0x99, blue: 0xcc };
+        expect(rgb).to.be.calledWith(color);
+      });
+    });
   });
 
   describe("#randomColor", function() {
