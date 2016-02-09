@@ -1,6 +1,6 @@
 {
   "name": "sphero",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "index.js",
   "description": "Sphero.js",
   "homepage": "http://www.sphero.com/",
