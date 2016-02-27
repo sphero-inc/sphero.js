@@ -82,6 +82,26 @@ describe("Custom Device Functions", function() {
         expect(rgb).to.be.calledWithMatch({ red: 250, green: 10, blue: 125 });
       });
     });
+
+    context("with luminance", function() {
+      it("converts to an RGB object at +20%", function() {
+        device.color(0x6699cc, .2);
+        var color = { red: 0x7a, green: 0xb8, blue: 0xf5 };
+        expect(rgb).to.be.calledWith(color);
+      });
+
+      it("converts to an RGB object at -50%", function() {
+        device.color(0x6699cc, -0.5);
+        var color = { red: 0x33, green: 0x4d, blue: 0x66 };
+        expect(rgb).to.be.calledWith(color);
+      });
+
+      it("converts to an RGB object at normal %", function() {
+        device.color(0x6699cc, 0);
+        var color = { red: 0x66, green: 0x99, blue: 0xcc };
+        expect(rgb).to.be.calledWith(color);
+      });
+    });
   });
 
   describe("#randomColor", function() {
@@ -148,6 +168,7 @@ describe("Custom Device Functions", function() {
     beforeEach(function() {
       device.setStabilization = spy();
       device.setBackLed = stub();
+      device.getColor = stub().yields(null, {color: 0xff00ff});
 
       device.startCalibration();
     });
@@ -159,6 +180,10 @@ describe("Custom Device Functions", function() {
     it("turns on the back LED", function() {
       expect(device.setBackLed).to.be.calledWith(127);
     });
+
+    it("turns off the main LED", function() {
+      expect(device.setRgbLed).to.be.calledWith(0);
+    });
   });
 
   describe("#finishCalibration", function() {
@@ -166,6 +191,7 @@ describe("Custom Device Functions", function() {
       device.setStabilization = spy();
       device.setHeading = spy();
       device.setBackLed = stub();
+      device.setRgbLed = stub();
 
       device.finishCalibration();
     });
@@ -180,6 +206,10 @@ describe("Custom Device Functions", function() {
 
     it("turns off the back LED", function() {
       expect(device.setBackLed).to.be.calledWith(0);
+    });
+
+    it("turns on the main LED again using original color", function() {
+      expect(device.setRgbLed).to.be.calledWith(0xff00ff);
     });
   });
 

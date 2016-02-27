@@ -164,6 +164,8 @@ KERNEL=="rfcomm[0-9]*", NAME="%k", GROUP="dialout"
 
 The udev rule above will allow any user who is a member of the `dialout` group to access any port that is added by connecting by running the `rfcomm` command. Note that running the `rfcomm` command itself to create the port, may require running under `sudo`.
 
+If you are receiving an error such as "Cannot open /dev/rfcomm0", then try running your program using "sudo".
+
 ***
 
 ### Windows
