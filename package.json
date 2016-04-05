@@ -6,14 +6,11 @@
   "homepage": "http://www.sphero.com/",
   "bugs": "https://github.com/orbotix/sphero.js/issues",
   "author": "Orbotix Inc.",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/orbotix/sphero.js"
   },
-
   "license": "MIT",
-
   "keywords": [
     "robot",
     "robots",
@@ -28,21 +25,18 @@
     "bb-8",
     "sprk"
   ],
-
   "devDependencies": {
-    "sinon-chai": "2.7.0",
-    "chai": "2.3.0",
-    "sinon": "1.14.1",
-    "mocha": "2.2.5",
-
-    "grunt": "0.4.5",
-
-    "eslint": "0.22.1",
+    "bluebird": "^3.3.4",
     "browserify": "10.2.3",
+    "chai": "2.3.0",
+    "eslint": "0.22.1",
+    "grunt": "0.4.5",
+    "mocha": "2.2.5",
+    "sinon": "1.14.1",
+    "sinon-chai": "2.7.0",
     "uglify-js": "2.4.23"
   },
-
   "dependencies": {
-    "browser-serialport": "2.0.2"
+    "browser-serialport": "^2.0.2"
   }
 }
