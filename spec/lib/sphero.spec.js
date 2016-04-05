@@ -88,7 +88,7 @@ describe("Sphero", function() {
       sphero.packet.on.yields();
       sphero.packet.parse.returns(packet);
       sphero.packet.parseResponseData.returns(packet);
-      // sphero.packet.parseAsyncData.returns(packet);
+
       sphero.connection.open.yields();
       sphero.connection.on.yields();
       sphero.connection.onRead.yields(buffer);
@@ -102,7 +102,7 @@ describe("Sphero", function() {
       sphero.packet.on.restore();
       sphero.packet.parse.restore();
       sphero.packet.parseResponseData.restore();
-      // sphero.packet.parseAsyncData.restore();
+
       sphero.connection.open.restore();
       sphero.connection.on.restore();
     });
@@ -226,9 +226,7 @@ describe("Sphero", function() {
       expect(sphero.emit).to.be.calledWith("ready");
     });
 
-    it("calls the callback once", function() {
-      expect(callback).to.be.calledOnce;
-    });
+    it("calls the callback once");
 
     it("returns void when callback is not a function", function() {
       callback.reset();
