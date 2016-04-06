@@ -458,22 +458,21 @@ describe("Sphero", function() {
       expect(sphero.responseQueue[4]).to.be.null;
     });
 
-    // it("triggers the callback passed", function() {
-    //   var error = new Error("Command sync response was lost.");
-    //   fakeTimers.tick(500);
-    //   expect(callback).to.be.calledWith(error, null);
-    // });
+    it("triggers the callback passed", function() {
+      var error = new Error("Command sync response was lost.");
+      fakeTimers.tick(500);
+      expect(rejecter).to.be.calledWith(error);
+    });
 
     it("calls #_execCommand once", function() {
       fakeTimers.tick(500);
       expect(sphero._execCommand).to.be.calledOnce;
     });
 
-    it("triggers #_execCommand if callback is null", function() {
+    it("triggers #_execCommand if promise is null", function() {
       fakeTimers.tick(500);
       sphero._queuePromise(cmdPacket);
       fakeTimers.tick(500);
-      //expect(promise).to.be.resolved;
       expect(sphero._execCommand).to.be.calledTwice;
     });
 
