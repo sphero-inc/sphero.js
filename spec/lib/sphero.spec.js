@@ -33,8 +33,8 @@ describe("Sphero", function() {
       expect(sphero.seqCounter).to.be.eql(0x00);
     });
 
-    it("sets callbackQueue array to an empty array", function() {
-      expect(sphero.callbackQueue).to.be.eql([]);
+    it("sets responseQueue array to an empty array", function() {
+      expect(sphero.responseQueue).to.be.eql([]);
     });
 
     it("adds core device methods", function() {
@@ -314,10 +314,9 @@ describe("Sphero", function() {
 
       callback = spy();
 
-
       sphero.sop2Bitfield = 0xFF;
       stub(sphero.packet, "create");
-      stub(sphero, "_queueCallback");
+      stub(sphero, "_queuePromise");
       stub(sphero.connection, "write");
       stub(sphero, "_incSeq").returns(0x01);
 
@@ -331,9 +330,9 @@ describe("Sphero", function() {
       expect(sphero.packet.create).to.be.calledWith(opts);
     });
 
-    it("calls #_queueCallback with params (cmdPacket, callback)", function() {
-      expect(sphero._queueCallback).to.be.calledOnce;
-      expect(sphero._queueCallback).to.be.calledWith(cmdByteArray, callback);
+    it("calls #_queuePromise with params (cmdPacket, promise)", function() {
+      expect(sphero._queuePromise).to.be.calledOnce;
+      //expect(sphero._queuePromise).to.be.calledWith(cmdByteArray, callback);
     });
 
     it("calls @connection#write with param commandPacket", function() {
@@ -343,20 +342,21 @@ describe("Sphero", function() {
   });
 
   describe("#_queueCommand", function() {
-    var callback, packet;
+    var resolve, reject, packet;
 
     beforeEach(function() {
-      callback = spy();
+      resolve = spy();
+      reject = spy();
       sphero.commandQueue = [];
       packet = [0xFF, 0xFF, 0x00, 0x01, 0x00, 0x01, 0xFE];
-      sphero._queueCommand(packet, callback);
+      sphero._queueCommand(packet, resolve, reject);
     });
 
     it("Adds a command and callback to the @commandQueue", function() {
       expect(sphero.commandQueue.length).to.be.eql(1);
       expect(sphero.commandQueue)
         .to.be.eql([
-          { packet: packet, cb: callback}
+          { packet: packet, resolver: resolve, rejecter: reject}
         ]);
     });
 
@@ -368,18 +368,18 @@ describe("Sphero", function() {
         packet2 = [0xFF, 0xFF, 0x00, 0x08, 0x00, 0x01, 0xFE];
 
         for (var i = 1; i < 256; i++) {
-          sphero._queueCommand(packet2, callback);
+          sphero._queueCommand(packet2, resolve, reject);
         }
 
-        sphero._queueCommand(packet3, callback);
+        sphero._queueCommand(packet3, resolve, reject);
       });
 
       it("discards next cmd and ads new cmd at the end", function() {
         expect(sphero.commandQueue.length).to.be.eql(256);
         expect(sphero.commandQueue[0])
-          .to.be.eql({ packet: packet2, cb: callback});
+          .to.be.eql({ packet: packet2, resolver: resolve, rejecter: reject});
         expect(sphero.commandQueue[255])
-          .to.be.eql({ packet: packet3, cb: callback});
+          .to.be.eql({ packet: packet3, resolver: resolve, rejecter: reject});
       });
     });
   });
@@ -416,18 +416,19 @@ describe("Sphero", function() {
     });
   });
 
-  describe("#_queueCallback", function() {
-    var callback, fakeTimers, cmdPacket;
+  describe("#_queuePromise", function() {
+    var resolver, rejecter, fakeTimers, cmdPacket;
 
     beforeEach(function() {
       cmdPacket = new Buffer([0xFF, 0xFD, 0x00, 0x01, 0x04, 0x01, 0xFD]);
       sphero.seqCounter = 0;
       fakeTimers = sinon.useFakeTimers();
 
-      callback = spy();
+      resolver = spy();
+      rejecter = spy();
       stub(sphero, "_execCommand");
 
-      sphero._queueCallback(cmdPacket, callback);
+      sphero._queuePromise(cmdPacket, resolver, rejecter);
     });
 
     afterEach(function() {
@@ -445,23 +446,23 @@ describe("Sphero", function() {
         checksum: 0xFE
       };
       sphero._execCallback(4, packet);
-      expect(callback).to.be.calledWith(null, packet);
+      expect(resolver).to.be.calledWith(packet);
     });
 
-    it("adds the callback to the @callbackQueue queue", function() {
-      expect(sphero.callbackQueue[4]).to.not.be.null;
+    it("adds the callback to the @responseQueue queue", function() {
+      expect(sphero.responseQueue[4]).to.not.be.null;
     });
 
-    it("removes the callback from @callbackQueue after 500ms", function() {
+    it("removes the callback from @responseQueue after 500ms", function() {
       fakeTimers.tick(500);
-      expect(sphero.callbackQueue[4]).to.be.null;
+      expect(sphero.responseQueue[4]).to.be.null;
     });
 
-    it("triggers the callback passed", function() {
-      var error = new Error("Command sync response was lost.");
-      fakeTimers.tick(500);
-      expect(callback).to.be.calledWith(error, null);
-    });
+    // it("triggers the callback passed", function() {
+    //   var error = new Error("Command sync response was lost.");
+    //   fakeTimers.tick(500);
+    //   expect(callback).to.be.calledWith(error, null);
+    // });
 
     it("calls #_execCommand once", function() {
       fakeTimers.tick(500);
@@ -470,16 +471,16 @@ describe("Sphero", function() {
 
     it("triggers #_execCommand if callback is null", function() {
       fakeTimers.tick(500);
-      sphero._queueCallback(cmdPacket);
+      sphero._queuePromise(cmdPacket);
       fakeTimers.tick(500);
-      expect(callback).to.be.calledOnce;
+      //expect(promise).to.be.resolved;
       expect(sphero._execCommand).to.be.calledTwice;
     });
 
   });
 
   describe("#_execCallback", function() {
-    var fakeTimers, callback, packet, cmdPacket;
+    var fakeTimers, resolved, rejected, packet, cmdPacket;
 
     beforeEach(function() {
       cmdPacket = new Buffer([0xFF, 0xFD, 0x00, 0x01, 0x04, 0x01, 0xFD]);
@@ -494,9 +495,10 @@ describe("Sphero", function() {
       };
 
       fakeTimers = sinon.useFakeTimers();
-      callback = spy();
+      resolved = spy();
+      rejected = spy();
 
-      sphero._queueCallback(cmdPacket, callback);
+      sphero._queuePromise(cmdPacket, resolved, rejected);
       sphero._execCallback(0x04, packet);
     });
 
@@ -505,19 +507,19 @@ describe("Sphero", function() {
     });
 
     it("triggers callback with args", function() {
-      expect(callback).to.be.calledWith(null, packet);
+      expect(resolved).to.be.calledWith(packet);
     });
 
-    it("removes the callback from the queue", function() {
-      expect(sphero.callbackQueue[0x04]).to.be.null;
+    it("removes the promise from the queue", function() {
+      expect(sphero.responseQueue[0x04]).to.be.null;
     });
 
-    context("when queued callback has already been removed", function() {
+    context("when queued promise has already been removed", function() {
       it("does not exist and does not try to trigger it", function() {
-        sphero._queueCallback(cmdPacket, callback);
-        expect(sphero.callbackQueue[0x04]).to.not.be.null;
+        sphero._queuePromise(cmdPacket, resolved, rejected);
+        expect(sphero.responseQueue[0x04]).to.not.be.null;
         sphero._execCallback(0x04, packet);
-        expect(sphero.callbackQueue[0x04]).to.be.null;
+        expect(sphero.responseQueue[0x04]).to.be.null;
         sphero._execCallback(0x04, packet);
       });
     });
@@ -525,7 +527,7 @@ describe("Sphero", function() {
 
   describe("#responseCmd", function() {
     beforeEach(function() {
-      sphero.callbackQueue[1] = {
+      sphero.responseQueue[1] = {
         did: 0x00,
         cid: 0x01,
         callback: spy(),
@@ -533,11 +535,11 @@ describe("Sphero", function() {
       };
     });
 
-    it("returns did and cid stored in seq pos of callbackQueue", function() {
+    it("returns did and cid stored in seq pos of responseQueue", function() {
       expect(sphero._responseCmd(1)).to.be.eql({ did: 0x00, cid: 0x01 });
     });
 
-    it("returns null if the callbackQueue position is not found", function() {
+    it("returns null if the responseQueue position is not found", function() {
       expect(sphero._responseCmd(100)).to.be.null;
     });
   });
