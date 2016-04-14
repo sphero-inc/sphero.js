@@ -1,6 +1,6 @@
 {
   "name": "sphero",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "index.js",
   "description": "Sphero.js - The Official Orbotix JavaScript SDK to control Sphero robots",
   "homepage": "http://www.sphero.com/",
