@@ -55,8 +55,29 @@ orb.connect(function() {
 
     setTimeout(function() {
       orb.color("green");
-    }, 1000);
+    }, 100);
   });
+});
+```
+
+You can also use a Promises/A+ interface for your code, instead of the callback-based API:
+
+```javascript
+orb.connect().then(function() {
+  return orb.roll(155, 0);
+}).then(function() {
+  return orb.color("green");
+}).then(orb.detectCollisions);
+
+orb.on("collision", function(data) {
+  console.log("collision detected");
+  console.log("  data:", data);
+
+  orb.color("red")
+    .delay(100)
+    .then(function() {
+      return orb.color("green");
+    });
 });
 ```
 
