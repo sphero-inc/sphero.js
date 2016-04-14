@@ -1,6 +1,6 @@
 {
   "name": "sphero",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "main": "index.js",
   "description": "Sphero.js - The Official Orbotix JavaScript SDK to control Sphero robots",
   "homepage": "http://www.sphero.com/",
@@ -26,7 +26,6 @@
     "sprk"
   ],
   "devDependencies": {
-    "bluebird": "^3.3.4",
     "browserify": "10.2.3",
     "chai": "2.3.0",
     "eslint": "0.22.1",
@@ -37,6 +36,7 @@
     "uglify-js": "2.4.23"
   },
   "dependencies": {
+    "bluebird": "^3.3.4",
     "browser-serialport": "^2.0.2"
   }
 }
