@@ -244,5 +244,5 @@ The `grunt` command by itself will run both of the above tasks.
 ## License
 
 Copyright (c) 2015-2016 Orbotix.
-MIT Licensed.
-For more details, see the `LICENSE` file.
+
+Licensed under the MIT license. For more details, see the `LICENSE` file.
