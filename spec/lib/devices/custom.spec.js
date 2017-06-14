@@ -269,6 +269,21 @@ describe("Custom Device Functions", function() {
       device.streamData.restore();
     });
 
+    it("#streamQuaternions calls #streamData with", function() {
+      var opts = {
+        event: "quaternions",
+        mask2: 0xF0000000,
+        fields: ["quaternionQ0", "quaternionQ1", "quaternionQ2", "quaternionQ3"],
+        sps: 2,
+        remove: false
+      };
+
+      device.streamQuaternions(2, false);
+
+      expect(device.streamData).to.be.calledOnce;
+      expect(device.streamData).to.be.calledWith(opts);
+    });
+
     it("#streamOdometer calls #streamData with", function() {
       var opts = {
         event: "odometer",
