@@ -1,8 +1,16 @@
-# Sphero.js
+# 🚫 DEPRECATED Sphero.js
 
-The official Orbotix JavaScript SDK module to programmatically control Sphero robots.
+This was the official Orbotix JavaScript SDK module to programmatically control Sphero robots manufactured through mid-2016. **This repo is no longer supported or maintained.**
 
 [![Build Status](https://travis-ci.org/orbotix/sphero.js.svg?branch=master)](https://travis-ci.org/orbotix/sphero.js) [![Code Climate](https://codeclimate.com/github/orbotix/sphero.js/badges/gpa.svg)](https://codeclimate.com/github/orbotix/sphero.js) [![Test Coverage](https://codeclimate.com/github/orbotix/sphero.js/badges/coverage.svg)](https://codeclimate.com/github/orbotix/sphero.js/coverage)
+
+
+*New SDKs have been produced for the [Sphero RVR](https://www.sphero.com/rvr). Links to the SDKs can be found below and more information can be found at [sdk.sphero.com](https://sdk.sphero.com/)*
+- [micro:bit Python SDK](https://github.com/sphero-inc/sphero-sdk-microbit-python)
+- [Arduino Uno C++ SDK](https://github.com/sphero-inc/sphero-sdk-arduino-cpp)
+- [Raspberry Pi Python SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-python)
+- [Raspberry Pi Node.js SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-nodejs)
+- [Raspberry Pi Client.js SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-clientjs)
 
 ## Usage
 
