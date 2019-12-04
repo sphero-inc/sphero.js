@@ -9,6 +9,7 @@ This was the official Orbotix JavaScript SDK module to programmatically control 
 - [micro:bit MakeCode SDK](https://github.com/sphero-inc/sphero-sdk-microbit-makecode) (this can also be found in "Extensions" on the [MakeCode site](https://makecode.microbit.org/)!)
 - [micro:bit Python SDK](https://github.com/sphero-inc/sphero-sdk-microbit-python)
 - [Arduino Uno C++ SDK](https://github.com/sphero-inc/sphero-sdk-arduino-cpp)
+- [Arduino SpheroRVR Library](https://github.com/sphero-inc/sphero-sdk-arduino-cpp-library-manager) (this is the code for the Library that can be selected in the Arduino IDE under Sketch > Include Library)
 - [Raspberry Pi Python SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-python)
 - [Raspberry Pi Node.js SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-nodejs)
 - [Raspberry Pi Client.js SDK](https://github.com/sphero-inc/sphero-sdk-raspberrypi-clientjs)
