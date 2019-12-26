@@ -3,7 +3,7 @@ env:
 
 rules:
   camelcase: [2, {properties: "always"}]
-  comma-dangle: "always-multiline"
+  comma-dangle: 0
   comma-spacing: [2, {before: false, after: true}]
   comma-style: [2, "last"]
   handle-callback-err: [2, "^.*(e|E)rr" ]

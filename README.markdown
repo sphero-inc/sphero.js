@@ -156,9 +156,20 @@ peripheral discovered (f3f26d557108 with address <f3:f2:6d:55:71:08, random>, co
 
 In the above output, the device address is `f3f26d557108` (or alternately `f3:f2:6d:55:71:08`). Use this value to connect to your BB-8 or Ollie.
 
-### Windows
+### Windows 8.1+ with WinUSB
 
-To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+. Instructions coming soon...
+To connect to your BB-8 or Ollie, you will need to be running Windows 8.1+. Follow [these instructions](https://github.com/sandeepmistry/noble#windows). Note that only [4 Blueooth adapters](https://github.com/sandeepmistry/node-bluetooth-hci-socket#compatible-bluetooth-40-usb-adapters) are compatible and that you will not be able to use your adapter through Windows and through Node.js at the same time.
+
+### Windows 10 with Node.js Chakra
+
+If you are running Windows 10 with the November 2015 update, you may install a version of Node.js which executes on top of the Microsoft Chakra JS engine, and has access to the Windows native Bluetooth stack.
+
+- Follow the instructions [here](https://github.com/hgwood/winble#install-all-the-things) to install Node.js Chakra, along with [winble](https://github.com/hgwood/winble), a Windows plugin for noble, and noble itself. Noble 1.4 or newer is required.
+- Pair your device with Windows as normal (Start Menu > Settings > Devices > Bluetooth) (this might be already done)
+- Hit Windows+X, select Device Manager > Bluetooth > double-click on your device name > Details > select "Bluetooth device address" and copy the address
+- Use the code snippet from the Usage section with the address
+- Add a second parameter to the `sphero` function like so: `sphero('<address>', {nobleBindings: require('winble')})`
+- Run the code using the Node.js Chakra command prompt
 
 ## Connecting to Sphero/SPRK
 
